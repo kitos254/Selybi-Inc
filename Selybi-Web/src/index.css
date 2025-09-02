@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* Premium Selybi Design System - Dark Blue Theme */
 
@@ -150,10 +151,19 @@
 @layer components {
   /* Glass Card Effect */
   .glass-card {
-    background: linear-gradient(145deg, hsl(var(--glass-bg) / 0.8), hsl(var(--navy-light) / 0.6));
-    backdrop-filter: blur(16px);
-    border: 1px solid hsl(var(--glass-border) / 0.3);
+    background: rgba(8, 47, 73, 0.9); /* Fallback for browsers that don't support backdrop-filter */
+    background: linear-gradient(145deg, hsl(var(--glass-bg) / 0.9), hsl(var(--navy-light) / 0.8));
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); /* Safari support */
+    border: 1px solid hsl(var(--glass-border) / 0.4);
     box-shadow: var(--shadow-glass);
+  }
+  
+  /* Additional support for browsers that don't support backdrop-filter */
+  @supports not (backdrop-filter: blur(20px)) {
+    .glass-card {
+      background: rgba(8, 47, 73, 0.95);
+    }
   }
   
   /* Glow Effects */
