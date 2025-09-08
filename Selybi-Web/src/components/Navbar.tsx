@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Menu, X, ChevronDown, User, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,12 +19,18 @@ const Navbar = () => {
   const [isServicesHovered, setIsServicesHovered] = useState(false);
   const [isProjectsHovered, setIsProjectsHovered] = useState(false);
   const location = useLocation();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  // Define routes where special navbar styling should be applied
+  const isSpecialRoute = ['/login', '/register', '/verify-email', '/innovault'].includes(location.pathname);
+  const shouldHideBanner = isSpecialRoute;
 
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Services", href: "/services" },
     { name: "Projects", href: "/projects" },
+    { name: "InnoVault", href: "/innovault" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -46,15 +60,15 @@ const Navbar = () => {
     <div className="fixed top-0 left-0 right-0 z-50">
       {/* Main Navbar Container */}
       <div 
-        className={`mx-auto max-w-7xl transition-all duration-300 relative ${
-          (isServicesHovered || isProjectsHovered) ? 'rounded-t-lg' : 'rounded-b-lg'
+        className={`${isSpecialRoute ? 'w-full' : 'mx-auto max-w-7xl'} transition-all duration-300 relative ${
+          (isServicesHovered || isProjectsHovered) ? 'rounded-t-lg' : (isSpecialRoute ? '' : 'rounded-b-lg')
         }`}
         style={{
           background: 'rgba(8, 51, 68, 0.3)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderBottom: (isServicesHovered || isProjectsHovered) ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+          border: isSpecialRoute ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: (isServicesHovered || isProjectsHovered) ? 'none' : (isSpecialRoute ? 'none' : '1px solid rgba(255, 255, 255, 0.1)'),
         }}
       >
         {/* Bottom border sections when dropdown is open - only where dropdown doesn't extend */}
@@ -99,7 +113,7 @@ const Navbar = () => {
           </>
         )}
         {/* Edora Banner */}
-        {showBanner && (
+        {showBanner && !shouldHideBanner && (
           <div>
             <div className="w-full flex items-center justify-between px-4 py-2">
               <h1 className="text-sm md:text-base italic">
@@ -202,12 +216,42 @@ const Navbar = () => {
 
             {/* Desktop Auth Buttons */}
             <div className="hidden md:flex items-center space-x-4">
-              <Button variant="ghost" className="font-medium">
-                Login
-              </Button>
-              <Button className="font-medium">
-                Sign Up
-              </Button>
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="font-medium flex items-center space-x-2">
+                      <User className="h-4 w-4" />
+                      <span>{user?.name}</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link to="/innovault" className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        InnoVault
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={logout}
+                      className="flex items-center text-red-600 focus:text-red-600"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Button variant="ghost" className="font-medium" asChild>
+                    <Link to="/login">Login</Link>
+                  </Button>
+                  <Button className="font-medium" asChild>
+                    <Link to="/register">Sign Up</Link>
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile menu button */}
@@ -443,12 +487,43 @@ const Navbar = () => {
                 );
               })}
               <div className="px-3 py-2 space-y-2">
-                <Button variant="ghost" className="w-full font-medium">
-                  Login
-                </Button>
-                <Button className="w-full font-medium">
-                  Sign Up
-                </Button>
+                {isAuthenticated ? (
+                  <>
+                    <div className="text-center py-2 border-b border-gray-200">
+                      <p className="text-sm font-medium text-gray-900">
+                        Welcome, {user?.name}
+                      </p>
+                    </div>
+                    <Button variant="ghost" className="w-full font-medium" asChild>
+                      <Link to="/innovault" onClick={() => setIsOpen(false)}>
+                        InnoVault
+                      </Link>
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full font-medium text-red-600 border-red-200 hover:bg-red-50"
+                      onClick={() => {
+                        logout();
+                        setIsOpen(false);
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="ghost" className="w-full font-medium" asChild>
+                      <Link to="/login" onClick={() => setIsOpen(false)}>
+                        Login
+                      </Link>
+                    </Button>
+                    <Button className="w-full font-medium" asChild>
+                      <Link to="/register" onClick={() => setIsOpen(false)}>
+                        Sign Up
+                      </Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
