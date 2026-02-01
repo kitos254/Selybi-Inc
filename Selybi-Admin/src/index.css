@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Selybi Dashboard Design System - Dark Navy Tech Theme */
+
+@layer base {
+  :root {
+    /* Light mode colors (backup) */
+    --background: 210 17% 98%;
+    --foreground: 213 27% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 213 27% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 27% 13%;
+    --primary: 197 100% 50%;
+    --primary-foreground: 213 27% 13%;
+    --secondary: 210 17% 95%;
+    --secondary-foreground: 213 27% 13%;
+    --muted: 210 17% 95%;
+    --muted-foreground: 213 13% 45%;
+    --accent: 210 17% 95%;
+    --accent-foreground: 213 27% 13%;
+    --destructive: 0 72% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 17% 90%;
+    --input: 210 17% 90%;
+    --ring: 197 100% 50%;
+    --radius: 0.75rem;
+
+    /* Tech theme specific colors */
+    --navy-950: 213 27% 13%;
+    --navy-900: 213 31% 16%;
+    --navy-800: 213 25% 20%;
+    --navy-700: 213 20% 25%;
+    --cyan-500: 197 100% 50%;
+    --cyan-400: 190 100% 60%;
+    --electric-blue: 221 100% 50%;
+    --electric-blue-light: 221 100% 65%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--cyan-500)) 0%, hsl(var(--electric-blue)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--navy-900)) 0%, hsl(var(--navy-800)) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--navy-950)) 0%, hsl(var(--navy-900)) 100%);
+    
+    /* Shadows */
+    --shadow-glow: 0 0 20px hsl(var(--cyan-500) / 0.2);
+    --shadow-card: 0 8px 32px hsl(213 27% 8% / 0.4);
+    --shadow-elegant: 0 4px 16px hsl(213 27% 8% / 0.3);
+
+    /* Sidebar colors */
+    --sidebar-background: 210 17% 95%;
+    --sidebar-foreground: 213 27% 13%;
+    --sidebar-primary: 197 100% 50%;
+    --sidebar-primary-foreground: 213 27% 13%;
+    --sidebar-accent: 210 17% 90%;
+    --sidebar-accent-foreground: 213 27% 13%;
+    --sidebar-border: 210 17% 85%;
+    --sidebar-ring: 197 100% 50%;
+  }
+
+  .dark {
+    /* Dark navy tech theme (default) */
+    --background: 213 27% 13%;
+    --foreground: 197 100% 95%;
+    --card: 213 31% 16%;
+    --card-foreground: 197 100% 95%;
+    --popover: 213 31% 16%;
+    --popover-foreground: 197 100% 95%;
+    --primary: 197 100% 50%;
+    --primary-foreground: 213 27% 13%;
+    --secondary: 213 25% 20%;
+    --secondary-foreground: 197 100% 95%;
+    --muted: 213 25% 20%;
+    --muted-foreground: 213 13% 65%;
+    --accent: 197 100% 50%;
+    --accent-foreground: 213 27% 13%;
+    --destructive: 0 72% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 213 25% 20%;
+    --input: 213 25% 20%;
+    --ring: 197 100% 50%;
+
+    /* Sidebar dark theme */
+    --sidebar-background: 213 31% 16%;
+    --sidebar-foreground: 197 100% 90%;
+    --sidebar-primary: 197 100% 50%;
+    --sidebar-primary-foreground: 213 27% 13%;
+    --sidebar-accent: 213 25% 20%;
+    --sidebar-accent-foreground: 197 100% 90%;
+    --sidebar-border: 213 25% 20%;
+    --sidebar-ring: 197 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Hide scrollbar for all elements */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+
+  /* Alternative: Hide scrollbar but keep functionality for specific elements */
+  html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+}
+
+@layer components {
+  /* Tech glow effects */
+  .glow-cyan {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .card-gradient {
+    background: var(--gradient-card);
+  }
+  
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px hsl(var(--cyan-500) / 0.2);
+  }
+  to {
+    box-shadow: 0 0 30px hsl(var(--cyan-500) / 0.4);
+  }
+}
