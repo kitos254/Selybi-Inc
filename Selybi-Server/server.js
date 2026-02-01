@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import authRoutes from './routes/auth.js';
 import projectRoutes from './routes/projects.js';
 import clientRoutes from './routes/clients.js';
+import contactRoutes from './routes/contacts.js';
 
 // Load environment variables
 dotenv.config();
@@ -77,6 +78,7 @@ mongoose.connect(mongoUri)
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/clients', clientRoutes);
+app.use('/api/contacts', contactRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

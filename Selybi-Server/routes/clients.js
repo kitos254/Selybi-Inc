@@ -267,7 +267,7 @@ router.post('/verify-email', async (req, res) => {
 
     // 4) Log the user in automatically
     createSendToken(client, 200, res, {
-      message: 'Email verified successfully! Welcome to InnoVault.'
+      message: 'Email verified successfully! Welcome.'
     });
 
   } catch (error) {

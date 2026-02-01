@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Alert, AlertDescription } from '../components/ui/alert';
 import { Loader2, CheckCircle, XCircle, Mail } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
-import Navbar from '../components/Navbar';
 import heroBackground from "../assets/hero-bg.jpg";
 
 const VerifyEmail = () => {
@@ -52,12 +51,12 @@ const VerifyEmail = () => {
 
           toast({
             title: "Email Verified!",
-            description: "Your email has been successfully verified. You can now access InnoVault.",
+            description: "Your email has been successfully verified. You can now access your account.",
           });
 
-          // Redirect to InnoVault after 3 seconds
+          // Redirect to home after 3 seconds
           setTimeout(() => {
-            navigate('/innovault');
+            navigate('/');
           }, 3000);
         } else {
           setVerificationStatus('error');
@@ -135,11 +134,6 @@ const VerifyEmail = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 to-navy-deep/90"></div>
       </div>
 
-      {/* Navbar */}
-      <div className="relative z-20">
-        <Navbar />
-      </div>
-
       {/* Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen pt-20 p-4">
         <Card className="w-full max-w-md bg-slate-900/95 backdrop-blur-sm shadow-2xl border-slate-700">
@@ -164,7 +158,7 @@ const VerifyEmail = () => {
             
             <CardDescription className="text-slate-300">
               {verificationStatus === 'loading' && 'Please wait while we verify your email address.'}
-              {verificationStatus === 'success' && 'Welcome to InnoVault! Redirecting you now...'}
+              {verificationStatus === 'success' && 'Your email has been verified! Redirecting you now...'}
               {verificationStatus === 'error' && 'There was an issue verifying your email.'}
             </CardDescription>
           </CardHeader>
@@ -184,13 +178,13 @@ const VerifyEmail = () => {
               {verificationStatus === 'success' && (
                 <div className="text-center space-y-4">
                   <p className="text-slate-300 text-sm">
-                    You will be automatically redirected to InnoVault in a few seconds.
+                    You will be automatically redirected in a few seconds.
                   </p>
                   <Button 
-                    onClick={() => navigate('/innovault')}
+                    onClick={() => navigate('/')}
                     className="w-full bg-green-600 hover:bg-green-700 text-white"
                   >
-                    Go to InnoVault Now
+                    Go to Home Now
                   </Button>
                 </div>
               )}

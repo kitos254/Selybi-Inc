@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Alert, AlertDescription } from '../components/ui/alert';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
-import Navbar from '../components/Navbar';
 import heroBackground from "../assets/hero-bg.jpg";
 
 const Register = () => {
@@ -75,7 +74,6 @@ const Register = () => {
         title: "Registration successful!",
         description: "Please check your email to verify your account before logging in.",
       });
-      // Redirect to login page instead of InnoVault
       navigate('/login');
     } catch (error) {
       setError(error.message);
@@ -104,18 +102,13 @@ const Register = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 to-navy-deep/90"></div>
       </div>
 
-      {/* Navbar */}
-      <div className="relative z-20">
-        <Navbar />
-      </div>
-
       {/* Form Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen pt-20 p-4">
         <Card className="w-full max-w-lg bg-slate-900/95 backdrop-blur-sm shadow-2xl border-slate-700">
           <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-2xl font-bold text-white">Join InnoVault</CardTitle>
+            <CardTitle className="text-2xl font-bold text-white">Create Account</CardTitle>
             <CardDescription className="text-slate-300">
-              Create an account to start bidding on innovative university projects
+              Create an account to get started
             </CardDescription>
           </CardHeader>
         <CardContent className="bg-slate-900/95">

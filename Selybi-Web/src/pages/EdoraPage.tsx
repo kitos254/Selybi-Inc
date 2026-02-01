@@ -1,6 +1,4 @@
-import Navbar from "@/components/Navbar";
 import { Link } from "react-router-dom";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import heroBackground from "@/assets/hero-bg.jpg";
@@ -63,9 +61,7 @@ const EdoraPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      
+    <>
       {/* Hero Section */}
       <section
         id="hero"
@@ -241,9 +237,7 @@ const EdoraPage = () => {
           </div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 

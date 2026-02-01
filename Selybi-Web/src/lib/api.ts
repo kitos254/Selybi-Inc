@@ -126,6 +126,19 @@ class ApiClient {
   async verifyToken(): Promise<ApiResponse> {
     return this.request('/auth/verify-token');
   }
+
+  // Contact endpoints
+  async submitContact(contactData: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }): Promise<ApiResponse> {
+    return this.request('/contacts', {
+      method: 'POST',
+      body: JSON.stringify(contactData),
+    });
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);

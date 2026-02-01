@@ -26,7 +26,7 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
     const mailOptions = {
       from: `"${process.env.COMPANY_NAME}" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'Verify Your Email Address - InnoVault',
+      subject: 'Verify Your Email Address',
       html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -94,14 +94,14 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
         </head>
         <body>
           <div class="container">
-            <div class="logo">🚀 InnoVault</div>
-            <h1>Welcome to InnoVault!</h1>
+            <div class="logo">🚀 ${process.env.COMPANY_NAME}</div>
+            <h1>Welcome!</h1>
             
             <div class="content">
               <h2>Hi ${name},</h2>
-              <p>Thank you for joining InnoVault, the premier marketplace for university IT final-year projects!</p>
+              <p>Thank you for joining us!</p>
               
-              <p>To complete your registration and start bidding on innovative projects, please verify your email address by clicking the button below:</p>
+              <p>To complete your registration, please verify your email address by clicking the button below:</p>
               
               <div style="text-align: center;">
                 <a href="${verificationUrl}" class="button">Verify Email Address</a>
@@ -112,17 +112,9 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
               
               <p><strong>This verification link will expire in 24 hours.</strong></p>
               
-              <p>Once verified, you'll be able to:</p>
-              <ul>
-                <li>Browse innovative university projects</li>
-                <li>Place bids on projects that interest you</li>
-                <li>Connect with talented students</li>
-                <li>Access exclusive project opportunities</li>
-              </ul>
+              <p>If you didn't create this account, please ignore this email.</p>
               
-              <p>If you didn't create an account with InnoVault, please ignore this email.</p>
-              
-              <p>Best regards,<br>The InnoVault Team</p>
+              <p>Best regards,<br>The ${process.env.COMPANY_NAME} Team</p>
             </div>
             
             <div class="footer">
@@ -134,20 +126,20 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
         </html>
       `,
       text: `
-        Welcome to InnoVault!
+        Welcome!
         
         Hi ${name},
         
-        Thank you for joining InnoVault! To complete your registration, please verify your email address by visiting:
+        Thank you for joining us! To complete your registration, please verify your email address by visiting:
         
         ${verificationUrl}
         
         This verification link will expire in 24 hours.
         
-        If you didn't create an account with InnoVault, please ignore this email.
+        If you didn't create this account, please ignore this email.
         
         Best regards,
-        The InnoVault Team
+        The ${process.env.COMPANY_NAME} Team
       `
     };
 
@@ -168,14 +160,14 @@ export const sendWelcomeEmail = async (email, name) => {
     const mailOptions = {
       from: `"${process.env.COMPANY_NAME}" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'Welcome to InnoVault - Get Started!',
+      subject: 'Welcome - Get Started!',
       html: `
         <!DOCTYPE html>
         <html lang="en">
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Welcome to InnoVault</title>
+          <title>Welcome</title>
           <style>
             body {
               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -227,32 +219,24 @@ export const sendWelcomeEmail = async (email, name) => {
         </head>
         <body>
           <div class="container">
-            <div class="logo">🎉 Welcome to InnoVault!</div>
+            <div class="logo">🎉 Welcome!</div>
             <h1>Your email has been verified!</h1>
             
             <div class="content">
               <h2>Hi ${name},</h2>
-              <p>Congratulations! Your email has been successfully verified and your InnoVault account is now active.</p>
+              <p>Congratulations! Your email has been successfully verified and your account is now active.</p>
               
-              <p>You're now ready to explore the exciting world of university innovation and start bidding on amazing projects!</p>
+              <p>You're now ready to get started!</p>
               
               <div style="text-align: center;">
-                <a href="${process.env.FRONTEND_URL}/innovault" class="button">Start Exploring Projects</a>
+                <a href="${process.env.FRONTEND_URL}" class="button">Get Started</a>
               </div>
               
-              <h3>What's Next?</h3>
-              <ul>
-                <li><strong>Browse Projects:</strong> Discover innovative final-year projects from talented university students</li>
-                <li><strong>Place Bids:</strong> Submit competitive bids on projects that match your interests</li>
-                <li><strong>Connect:</strong> Network with bright minds and future tech leaders</li>
-                <li><strong>Collaborate:</strong> Turn student innovations into real-world solutions</li>
-              </ul>
+              <p>Need help getting started? Contact our support team.</p>
               
-              <p>Need help getting started? Check out our platform guide or contact our support team.</p>
+              <p>Thank you for joining us!</p>
               
-              <p>Thank you for joining the InnoVault community!</p>
-              
-              <p>Best regards,<br>The InnoVault Team</p>
+              <p>Best regards,<br>The ${process.env.COMPANY_NAME} Team</p>
             </div>
             
             <div class="footer">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -8,528 +8,204 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, ChevronDown, User, LogOut } from "lucide-react";
+import { Menu, X, ChevronDown, User, LogOut, ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showBanner, setShowBanner] = useState(true);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
-  const [isServicesHovered, setIsServicesHovered] = useState(false);
-  const [isProjectsHovered, setIsProjectsHovered] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
 
-  // Define routes where special navbar styling should be applied
-  const isSpecialRoute = ['/login', '/register', '/verify-email', '/innovault'].includes(location.pathname);
-  const shouldHideBanner = isSpecialRoute;
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Services", href: "/services" },
     { name: "Projects", href: "/projects" },
-    { name: "InnoVault", href: "/innovault" },
     { name: "Contact", href: "/contact" },
   ];
 
-  const serviceLinks = [
-    { name: "Web Development", href: "/services/web-development" },
-    { name: "Mobile App Development", href: "/services/mobile-development" },
-    { name: "Database Administration", href: "/services/database-administration" },
-    { name: "Cloud Solutions", href: "/services/cloud-solutions" },
-    { name: "DevOps & CI/CD", href: "/services/devops" },
-    { name: "API Development", href: "/services/api-development" },
-    { name: "Software Consulting", href: "/services/consulting" },
-    { name: "Maintenance & Support", href: "/services/maintenance" },
-  ];
-
-  const projectLinks = [
-    { name: "In-House Projects", href: "/projects/inhouse" },
-    { name: "External Projects", href: "/projects/external" },
-    { name: "Mobile Apps", href: "/projects/mobile-apps" },
-    { name: "Websites", href: "/projects/websites" },
-    { name: "Desktop Apps", href: "/projects/desktop-apps" },
-    { name: "E-commerce", href: "/projects/ecommerce" },
-    { name: "SaaS Platforms", href: "/projects/saas" },
-    { name: "API Projects", href: "/projects/api" },
-  ];
-
   return (
-    <div className="fixed top-0 left-0 right-0 z-50">
-      {/* Main Navbar Container */}
-      <div 
-        className={`${isSpecialRoute ? 'w-full' : 'mx-auto max-w-7xl'} transition-all duration-300 relative ${
-          (isServicesHovered || isProjectsHovered) ? 'rounded-t-lg' : (isSpecialRoute ? '' : 'rounded-b-lg')
-        }`}
-        style={{
-          background: 'rgba(8, 51, 68, 0.3)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: isSpecialRoute ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-          borderBottom: (isServicesHovered || isProjectsHovered) ? 'none' : (isSpecialRoute ? 'none' : '1px solid rgba(255, 255, 255, 0.1)'),
-        }}
-      >
-        {/* Bottom border sections when dropdown is open - only where dropdown doesn't extend */}
-        {isServicesHovered && (
-          <>
-            {/* Left bottom border - 10% */}
-            <div 
-              className="absolute bottom-0 left-0 h-px bg-white/10"
-              style={{
-                width: '10%',
-                zIndex: 10,
-              }}
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/70 backdrop-blur-xl shadow-lg border-b border-white/20' 
+        : 'bg-white'
+    }`}>
+      {/* Main Navigation */}
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 lg:h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 group">
+            <img 
+              src="/Selybi_Logo.png" 
+              alt="Selybi Logo" 
+              className="h-9 w-9 transition-transform group-hover:scale-105" 
             />
-            {/* Right bottom border - 30% */}
-            <div 
-              className="absolute bottom-0 right-0 h-px bg-white/10"
-              style={{
-                width: '30%',
-                zIndex: 10,
-              }}
-            />
-          </>
-        )}
-        {isProjectsHovered && (
-          <>
-            {/* Left bottom border - 10% */}
-            <div 
-              className="absolute bottom-0 left-0 h-px bg-white/10"
-              style={{
-                width: '10%',
-                zIndex: 10,
-              }}
-            />
-            {/* Right bottom border - 30% */}
-            <div 
-              className="absolute bottom-0 right-0 h-px bg-white/10"
-              style={{
-                width: '30%',
-                zIndex: 10,
-              }}
-            />
-          </>
-        )}
-        {/* Edora Banner */}
-        {showBanner && !shouldHideBanner && (
-          <div>
-            <div className="w-full flex items-center justify-between px-4 py-2">
-              <h1 className="text-sm md:text-base italic">
-                <a
-                  href="https://edora.selybi.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-blue-600 hover:underline"
-                >
-                  Edora{" "}
-                </a>
-                is now live 🚀
-                <span> <Link to="/edora" className="text-indigo-500 hover:underline ml-2">Learn more...</Link></span>
-              </h1>
-              <button
-                onClick={() => setShowBanner(false)}
-                className="ml-2 text-gray-200 hover:text-red-500 transition"
+            <span className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>Selybi</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className={`relative py-2 font-medium transition-colors duration-200 ${
+                  location.pathname === link.href
+                    ? "text-primary after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary"
+                    : "text-slate-700 hover:text-primary after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+                }`}
               >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="border-t border-white/20" />
+                {link.name}
+              </Link>
+            ))}
           </div>
-        )}
 
-        {/* Main Navigation */}
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <Link to="/" className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-gradient">Selybi</h1>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex flex-1 justify-center">
-              <div className="flex items-center space-x-8">
-                {navLinks.map((link) => {
-                  if (link.name === "Services") {
-                    return (
-                      <div
-                        key={link.name}
-                        className="relative"
-                        onMouseEnter={() => setIsServicesHovered(true)}
-                        onMouseLeave={() => setIsServicesHovered(false)}
-                      >
-                        <Link
-                          to={link.href}
-                          className={`font-medium transition-colors duration-300 flex items-center gap-1 py-6 ${
-                            location.pathname === link.href || location.pathname.startsWith('/services/')
-                              ? "text-primary"
-                              : "text-foreground hover:text-primary"
-                          }`}
-                        >
-                          {link.name}
-                          <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${isServicesHovered ? 'rotate-180' : ''}`} />
-                        </Link>
-                      </div>
-                    );
-                  }
-
-                  if (link.name === "Projects") {
-                    return (
-                      <div
-                        key={link.name}
-                        className="relative"
-                        onMouseEnter={() => setIsProjectsHovered(true)}
-                        onMouseLeave={() => setIsProjectsHovered(false)}
-                      >
-                        <Link
-                          to={link.href}
-                          className={`font-medium transition-colors duration-300 flex items-center gap-1 py-6 ${
-                            location.pathname === link.href || location.pathname.startsWith('/projects/')
-                              ? "text-primary"
-                              : "text-foreground hover:text-primary"
-                          }`}
-                        >
-                          {link.name}
-                          <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${isProjectsHovered ? 'rotate-180' : ''}`} />
-                        </Link>
-                      </div>
-                    );
-                  }
-                  
-                  return (
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      className={`font-medium transition-colors duration-300 py-6 ${
-                        location.pathname === link.href
-                          ? "text-primary"
-                          : "text-foreground hover:text-primary"
-                      }`}
-                    >
-                      {link.name}
+          {/* Desktop Auth Buttons */}
+          <div className="hidden lg:flex items-center gap-3">
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="font-medium flex items-center gap-2 text-slate-700">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <User className="h-4 w-4 text-primary" />
+                    </div>
+                    <span>{user?.name}</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to="/" className="flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      Dashboard
                     </Link>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Desktop Auth Buttons */}
-            <div className="hidden md:flex items-center space-x-4">
-              {isAuthenticated ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="font-medium flex items-center space-x-2">
-                      <User className="h-4 w-4" />
-                      <span>{user?.name}</span>
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem asChild>
-                      <Link to="/innovault" className="flex items-center">
-                        <User className="mr-2 h-4 w-4" />
-                        InnoVault
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem 
-                      onClick={logout}
-                      className="flex items-center text-red-600 focus:text-red-600"
-                    >
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Logout
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <>
-                  <Button variant="ghost" className="font-medium" asChild>
-                    <Link to="/login">Login</Link>
-                  </Button>
-                  <Button className="font-medium" asChild>
-                    <Link to="/register">Sign Up</Link>
-                  </Button>
-                </>
-              )}
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsOpen(!isOpen)}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    onClick={logout}
+                    className="flex items-center text-red-600 focus:text-red-600"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button 
+                className="font-medium bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-300 group" 
+                asChild
               >
-                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                <Link to="/contact">
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            className="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Navigation - Slide in from right */}
+      <div 
+        className={`lg:hidden fixed top-16 lg:top-20 right-0 h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] w-full max-w-sm bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-40 ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="h-full flex flex-col px-6 py-6">
+          <div className="flex-1 space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className={`block px-4 py-4 rounded-xl font-medium text-lg transition-colors ${
+                  location.pathname === link.href
+                    ? "text-gray-900 bg-gray-100"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Auth Buttons */}
+          <div className="pt-6 mt-6 border-t border-gray-100 space-y-3">
+            {isAuthenticated ? (
+              <>
+                <div className="px-4 py-2 text-sm text-gray-500">
+                  Signed in as <span className="font-medium text-gray-900">{user?.name}</span>
+                </div>
+                <Button variant="ghost" className="w-full justify-start font-medium" asChild>
+                  <Link to="/" onClick={() => setIsOpen(false)}>
+                    <User className="mr-2 h-4 w-4" /> Dashboard
+                  </Link>
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start font-medium text-red-600 border-red-200 hover:bg-red-50"
+                  onClick={() => {
+                    logout();
+                    setIsOpen(false);
+                  }}
+                >
+                  <LogOut className="mr-2 h-4 w-4" /> Logout
+                </Button>
+              </>
+            ) : (
+              <Button className="w-full font-medium bg-gray-900 hover:bg-gray-800 rounded-full py-6 text-base" asChild>
+                <Link to="/contact" onClick={() => setIsOpen(false)}>
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            )}
+          </div>
+
+          {/* Footer in mobile menu */}
+          <div className="pt-6 mt-auto border-t border-gray-100">
+            <div className="flex items-center justify-center gap-4 text-sm text-gray-500 mb-3">
+              <Link to="/privacy-policy" onClick={() => setIsOpen(false)} className="hover:text-gray-900 transition-colors">
+                Privacy Policy
+              </Link>
+              <span>•</span>
+              <Link to="/terms" onClick={() => setIsOpen(false)} className="hover:text-gray-900 transition-colors">
+                Terms & Conditions
+              </Link>
             </div>
+            <p className="text-center text-xs text-gray-400">
+              © {new Date().getFullYear()} Selybi. All rights reserved.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Services Dropdown - 60% width with 10% left margin and 30% right margin */}
-      {isServicesHovered && (
-        <div className="mx-auto max-w-7xl relative">
-          <div
-            className="absolute"
-            style={{
-              left: '10%',
-              width: '60%',
-              background: 'rgba(8, 51, 68, 0.3)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderTop: 'none',
-              borderRadius: '0 0 0.5rem 0.5rem', // Only bottom corners rounded
-              marginTop: '0',
-              zIndex: 40,
-            }}
-            onMouseEnter={() => setIsServicesHovered(true)}
-            onMouseLeave={() => setIsServicesHovered(false)}
-          >
-            <div className="px-6 py-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Link
-                  to="/services"
-                  className="block p-4 rounded-lg hover:bg-white/5 transition-all duration-300 group"
-                >
-                  <div className="font-semibold text-primary mb-2 group-hover:text-primary/80">All Services</div>
-                  <div className="text-sm text-muted-foreground">View our complete service portfolio</div>
-                </Link>
-                {serviceLinks.map((service) => (
-                  <Link
-                    key={service.name}
-                    to={service.href}
-                    className="block p-4 rounded-lg hover:bg-white/5 transition-all duration-300 group"
-                  >
-                    <div className="font-medium text-foreground mb-2 group-hover:text-primary">{service.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {service.name === "Web Development" && "Custom websites & web applications"}
-                      {service.name === "Mobile App Development" && "iOS & Android mobile solutions"}
-                      {service.name === "Database Administration" && "Database design & optimization"}
-                      {service.name === "Cloud Solutions" && "AWS, Azure & cloud infrastructure"}
-                      {service.name === "DevOps & CI/CD" && "Automation & deployment pipelines"}
-                      {service.name === "API Development" && "RESTful & GraphQL APIs"}
-                      {service.name === "Software Consulting" && "Technical strategy & architecture"}
-                      {service.name === "Maintenance & Support" && "Ongoing support & updates"}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Projects Dropdown - 60% width with 10% left margin and 30% right margin */}
-      {isProjectsHovered && (
-        <div className="mx-auto max-w-7xl relative">
-          <div
-            className="absolute"
-            style={{
-              left: '10%',
-              width: '60%',
-              background: 'rgba(8, 51, 68, 0.3)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderTop: 'none',
-              borderRadius: '0 0 0.5rem 0.5rem', // Only bottom corners rounded
-              marginTop: '0',
-              zIndex: 40,
-            }}
-            onMouseEnter={() => setIsProjectsHovered(true)}
-            onMouseLeave={() => setIsProjectsHovered(false)}
-          >
-            <div className="px-6 py-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Link
-                  to="/projects"
-                  className="block p-4 rounded-lg hover:bg-white/5 transition-all duration-300 group"
-                >
-                  <div className="font-semibold text-primary mb-2 group-hover:text-primary/80">All Projects</div>
-                  <div className="text-sm text-muted-foreground">View our complete project portfolio</div>
-                </Link>
-                {projectLinks.map((project) => (
-                  <Link
-                    key={project.name}
-                    to={project.href}
-                    className="block p-4 rounded-lg hover:bg-white/5 transition-all duration-300 group"
-                  >
-                    <div className="font-medium text-foreground mb-2 group-hover:text-primary">{project.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {project.name === "In-House Projects" && "Internal company projects & products"}
-                      {project.name === "External Projects" && "Client work & commissioned projects"}
-                      {project.name === "Mobile Apps" && "iOS & Android applications"}
-                      {project.name === "Websites" && "Web applications & corporate sites"}
-                      {project.name === "Desktop Apps" && "Cross-platform desktop applications"}
-                      {project.name === "E-commerce" && "Online stores & marketplace solutions"}
-                      {project.name === "SaaS Platforms" && "Software as a Service solutions"}
-                      {project.name === "API Projects" && "Backend services & integrations"}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Navigation - Full width seamless extension */}
+      {/* Overlay when mobile menu is open */}
       {isOpen && (
-        <div className="mx-auto max-w-7xl">
-          <div 
-            className="md:hidden w-full"
-            style={{
-              background: 'rgba(8, 51, 68, 0.3)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderTop: 'none',
-              borderRadius: '0 0 0.5rem 0.5rem',
-              marginTop: '0',
-            }}
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navLinks.map((link) => {
-                if (link.name === "Services") {
-                  return (
-                    <div key={link.name}>
-                      <button
-                        onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                        className={`w-full text-left px-3 py-2 transition-colors duration-300 flex items-center justify-between ${
-                          location.pathname === link.href || location.pathname.startsWith('/services/')
-                            ? "text-primary"
-                            : "text-foreground hover:text-primary"
-                        }`}
-                      >
-                        {link.name}
-                        <ChevronDown className={`h-4 w-4 transform transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
-                      </button>
-                      {mobileServicesOpen && (
-                        <div className="pl-4 space-y-1">
-                          <Link
-                            to="/services"
-                            className="block px-3 py-2 text-sm text-foreground hover:text-primary transition-colors duration-300"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            All Services
-                          </Link>
-                          {serviceLinks.map((service) => (
-                            <Link
-                              key={service.name}
-                              to={service.href}
-                              className="block px-3 py-2 text-sm text-foreground hover:text-primary transition-colors duration-300"
-                              onClick={() => setIsOpen(false)}
-                            >
-                              {service.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                if (link.name === "Projects") {
-                  return (
-                    <div key={link.name}>
-                      <button
-                        onClick={() => setMobileProjectsOpen(!mobileProjectsOpen)}
-                        className={`w-full text-left px-3 py-2 transition-colors duration-300 flex items-center justify-between ${
-                          location.pathname === link.href || location.pathname.startsWith('/projects/')
-                            ? "text-primary"
-                            : "text-foreground hover:text-primary"
-                        }`}
-                      >
-                        {link.name}
-                        <ChevronDown className={`h-4 w-4 transform transition-transform ${mobileProjectsOpen ? 'rotate-180' : ''}`} />
-                      </button>
-                      {mobileProjectsOpen && (
-                        <div className="pl-4 space-y-1">
-                          <Link
-                            to="/projects"
-                            className="block px-3 py-2 text-sm text-foreground hover:text-primary transition-colors duration-300"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            All Projects
-                          </Link>
-                          {projectLinks.map((project) => (
-                            <Link
-                              key={project.name}
-                              to={project.href}
-                              className="block px-3 py-2 text-sm text-foreground hover:text-primary transition-colors duration-300"
-                              onClick={() => setIsOpen(false)}
-                            >
-                              {project.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-                
-                return (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className={`block px-3 py-2 transition-colors duration-300 ${
-                      location.pathname === link.href
-                        ? "text-primary"
-                        : "text-foreground hover:text-primary"
-                    }`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                );
-              })}
-              <div className="px-3 py-2 space-y-2">
-                {isAuthenticated ? (
-                  <>
-                    <div className="text-center py-2 border-b border-gray-200">
-                      <p className="text-sm font-medium text-gray-900">
-                        Welcome, {user?.name}
-                      </p>
-                    </div>
-                    <Button variant="ghost" className="w-full font-medium" asChild>
-                      <Link to="/innovault" onClick={() => setIsOpen(false)}>
-                        InnoVault
-                      </Link>
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full font-medium text-red-600 border-red-200 hover:bg-red-50"
-                      onClick={() => {
-                        logout();
-                        setIsOpen(false);
-                      }}
-                    >
-                      Logout
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button variant="ghost" className="w-full font-medium" asChild>
-                      <Link to="/login" onClick={() => setIsOpen(false)}>
-                        Login
-                      </Link>
-                    </Button>
-                    <Button className="w-full font-medium" asChild>
-                      <Link to="/register" onClick={() => setIsOpen(false)}>
-                        Sign Up
-                      </Link>
-                    </Button>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        <div 
+          className="lg:hidden fixed inset-0 top-16 lg:top-20 bg-black/20 backdrop-blur-sm z-30"
+          onClick={() => setIsOpen(false)}
+        />
       )}
-    </div>
+    </header>
   );
 };
 

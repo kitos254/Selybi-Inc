@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Alert, AlertDescription } from '../components/ui/alert';
 import { Loader2, Eye, EyeOff, Mail } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
-import Navbar from '../components/Navbar';
 import heroBackground from "../assets/hero-bg.jpg";
 
 const Login = () => {
@@ -45,9 +44,9 @@ const Login = () => {
       await login(formData.identifier, formData.password);
       toast({
         title: "Login successful!",
-        description: "Welcome back to InnoVault.",
+        description: "Welcome back.",
       });
-      navigate('/innovault');
+      navigate('/');
     } catch (error) {
       setError(error.message);
       
@@ -121,18 +120,13 @@ const Login = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/40 to-navy-deep/90"></div>
       </div>
 
-      {/* Navbar */}
-      <div className="relative z-20">
-        <Navbar />
-      </div>
-
       {/* Form Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen pt-20 p-4">
         <Card className="w-full max-w-md bg-slate-900/95 backdrop-blur-sm shadow-2xl border-slate-700">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold text-white">Welcome back</CardTitle>
             <CardDescription className="text-slate-300">
-              Sign in to your account to access InnoVault
+              Sign in to your account
             </CardDescription>
           </CardHeader>
         <CardContent className="bg-slate-900/95">
