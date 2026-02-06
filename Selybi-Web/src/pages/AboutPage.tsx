@@ -75,7 +75,7 @@ const AboutPage = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 overflow-hidden">
+      <section className="relative -mt-16 pt-16 lg:pt-28 pb-8 sm:pb-16 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(107,114,128,0.08),transparent)]" />
@@ -85,25 +85,25 @@ const AboutPage = () => {
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-300/20 rounded-full blur-3xl" />
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-0 sm:gap-12 lg:gap-16 items-start lg:items-center">
             {/* Content */}
-            <div className="text-center lg:text-left">
+            <div className="text-center lg:text-left pt-6 lg:pt-0 px-4 sm:px-0 order-2 lg:order-1">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-900/5 border border-gray-900/10 mb-6">
                 <span className="text-sm font-medium text-gray-700">About Selybi</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                 We build software that{" "}
                 <span className="text-primary">matters</span>
               </h1>
-              <p className="text-lg text-gray-600 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
                 A forward-thinking software development company founded on June 16, 2025. 
                 We create innovative solutions that empower businesses and transform industries.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
                 <Button
                   size="lg"
-                  className="bg-gray-900 hover:bg-gray-800 text-white font-medium px-8 w-full sm:w-auto"
+                  className="bg-gray-900 hover:bg-gray-800 text-white font-medium px-6 sm:px-8 w-full sm:w-auto"
                   asChild
                 >
                   <Link to="/contact">
@@ -123,25 +123,31 @@ const AboutPage = () => {
             </div>
             
             {/* Image */}
-            <div className="relative">
-              <div className="absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-gray-200 to-gray-300/50 rounded-3xl" />
-              <div className="absolute -bottom-4 -left-4 w-full h-full bg-gradient-to-tr from-gray-300/50 to-gray-200 rounded-3xl" />
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src="/image 1.jpg" 
-                  alt="Selybi Team" 
-                  className="w-full h-auto object-cover aspect-[4/3]"
-                />
-              </div>
-              {/* Floating stats card */}
-              <div className="absolute -bottom-6 -left-6 md:left-auto md:-right-6 bg-white rounded-2xl p-4 shadow-xl border border-gray-100">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <CheckCircle className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900">50+</p>
-                    <p className="text-sm text-gray-500">Projects Delivered</p>
+            <div className="relative lg:pl-8 order-1 lg:order-2">
+              <div className="relative">
+                {/* Decorative elements behind image */}
+                <div className="hidden sm:block absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-primary/20 to-emerald-500/20 rounded-3xl" />
+                <div className="hidden sm:block absolute -bottom-4 -left-4 w-full h-full bg-gradient-to-tr from-emerald-500/10 to-primary/10 rounded-3xl" />
+                
+                {/* Main Image */}
+                <div className="relative rounded-none sm:rounded-3xl overflow-hidden shadow-2xl">
+                  <img 
+                    src="/image 1.jpg" 
+                    alt="Selybi Team" 
+                    className="w-full h-auto object-cover aspect-[4/3]"
+                  />
+                  
+                  {/* Floating Stats Card */}
+                  <div className="absolute bottom-6 left-6 right-6 sm:left-auto sm:right-6 sm:w-64 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-white/50">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center">
+                        <CheckCircle className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold text-gray-900">50+</p>
+                        <p className="text-sm text-gray-500">Projects Delivered</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

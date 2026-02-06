@@ -11,7 +11,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative min-h-screen pt-8 lg:pt-12 overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100">
+    <section className="relative min-h-[calc(100dvh-4rem)] lg:min-h-[calc(100dvh-5rem)] -mt-16 pt-16 lg:pt-28 pb-0 overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100">
       {/* Elegant Background Elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(107,114,128,0.08),transparent)]" />
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-gray-200/50 via-transparent to-transparent" />
@@ -21,10 +21,10 @@ const Hero = () => {
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gray-300/20 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-300/20 rounded-full blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-6rem)]">
+      <div className="relative max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-0 sm:gap-12 lg:gap-16 items-start lg:items-center lg:min-h-[calc(100dvh-5rem)]">
           {/* Left Content */}
-          <div className="text-center lg:text-left pt-8 lg:pt-0">
+          <div className="text-center lg:text-left pt-6 lg:pt-0 px-4 sm:px-0 order-2 lg:order-1">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/20 mb-6 animate-fade-in-up">
               <Sparkles className="w-4 h-4 text-primary" />
@@ -32,22 +32,22 @@ const Hero = () => {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 leading-tight mb-6 animate-fade-in-up stagger-1">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 leading-tight mb-4 sm:mb-6 animate-fade-in-up stagger-1">
               Build Software That{" "}
               <span className="text-gradient">Drives Growth</span>
             </h1>
 
             {/* Subheading */}
-            <p className="text-lg sm:text-xl text-slate-600 max-w-xl mx-auto lg:mx-0 mb-8 animate-fade-in-up stagger-2">
+            <p className="text-base sm:text-xl text-slate-600 max-w-xl mx-auto lg:mx-0 mb-6 sm:mb-8 animate-fade-in-up stagger-2">
               We transform your ideas into powerful digital solutions. From web apps to mobile platforms, 
               we deliver exceptional software that scales with your business.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 animate-fade-in-up stagger-3">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 sm:mb-10 animate-fade-in-up stagger-3">
               <Button 
                 size="lg" 
-                className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all"
+                className="bg-primary hover:bg-primary/90 text-white font-semibold px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-all"
                 asChild
               >
                 <Link to="/contact">
@@ -58,7 +58,7 @@ const Hero = () => {
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="font-semibold px-8 py-6 text-lg border-slate-300 hover:bg-slate-50"
+                className="font-semibold px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg border-slate-300 hover:bg-slate-50"
                 asChild
               >
                 <Link to="/projects">
@@ -86,14 +86,14 @@ const Hero = () => {
           </div>
 
           {/* Right Content - Hero Image */}
-          <div className="relative lg:pl-8 animate-fade-in-up stagger-2">
+          <div className="relative lg:pl-8 animate-fade-in-up stagger-2 order-1 lg:order-2">
             <div className="relative">
               {/* Decorative elements behind image */}
-              <div className="absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-primary/20 to-emerald-500/20 rounded-3xl" />
-              <div className="absolute -bottom-4 -left-4 w-full h-full bg-gradient-to-tr from-emerald-500/10 to-primary/10 rounded-3xl" />
+              <div className="hidden sm:block absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-primary/20 to-emerald-500/20 rounded-3xl" />
+              <div className="hidden sm:block absolute -bottom-4 -left-4 w-full h-full bg-gradient-to-tr from-emerald-500/10 to-primary/10 rounded-3xl" />
               
               {/* Main Image */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-none sm:rounded-3xl overflow-hidden shadow-2xl">
                 <img 
                   src="/Hero.jpg" 
                   alt="Software Development Team at Work" 
@@ -130,8 +130,8 @@ const Hero = () => {
       </div>
 
       {/* Bottom Wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg className="w-full h-24 text-white" viewBox="0 0 1440 100" fill="currentColor" preserveAspectRatio="none">
+      <div className="relative mt-8 sm:mt-12">
+        <svg className="w-full h-16 sm:h-24 text-white block" viewBox="0 0 1440 100" fill="currentColor" preserveAspectRatio="none">
           <path d="M0,50 C360,100 1080,0 1440,50 L1440,100 L0,100 Z" />
         </svg>
       </div>

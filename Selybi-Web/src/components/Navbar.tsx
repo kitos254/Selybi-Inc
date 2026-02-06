@@ -125,7 +125,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation - Slide in from right */}
       <div 
-        className={`lg:hidden fixed top-16 lg:top-20 right-0 h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] w-full max-w-sm bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-40 ${
+        className={`lg:hidden fixed top-16 lg:top-20 right-0 h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-5rem)] w-full max-w-sm bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-40 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
