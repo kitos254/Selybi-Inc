@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -64,10 +65,69 @@ Beyond operations, Collins plays a crucial role in business development and stra
     }
   ];
 
+  // Smooth collapsing profile header
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+  const ticking = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!ticking.current) {
+        requestAnimationFrame(() => {
+          const heroBottom = heroRef.current?.getBoundingClientRect().bottom ?? 0;
+          setIsHeaderVisible(heroBottom < 80);
+          ticking.current = false;
+        });
+        ticking.current = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
+      {/* Compact Sticky Profile Header */}
+      <div
+        className={`fixed top-16 lg:top-20 left-0 right-0 z-30 will-change-transform transition-all duration-300 ease-out ${
+          isHeaderVisible
+            ? 'translate-y-0 opacity-100'
+            : '-translate-y-full opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 shadow-sm">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div className="flex items-center gap-3">
+              <Avatar className="w-10 h-10 border-2 border-white shadow-md">
+                <AvatarImage src={profile.image} alt={profile.name} />
+                <AvatarFallback className="text-sm font-bold bg-gray-900 text-white">
+                  {profile.initials}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0 flex-1">
+                <h2 className="font-semibold text-gray-900 text-sm truncate">{profile.name}</h2>
+                <p className="text-xs text-gray-500 truncate">{profile.role}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
+                  className="p-1.5 rounded-full bg-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white transition-colors">
+                  <Linkedin size={16} />
+                </a>
+                <a href={`https://wa.me/${profile.whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer"
+                  className="p-1.5 rounded-full bg-green-500 text-white hover:bg-green-600 transition-colors">
+                  <FaWhatsapp size={16} />
+                </a>
+                <Button size="sm" asChild className="bg-gray-900 hover:bg-gray-800 hidden sm:inline-flex">
+                  <Link to="/contact">Get in Touch</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="relative pt-8 pb-16 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 overflow-hidden">
+      <section ref={heroRef} className="relative pt-8 pb-16 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(107,114,128,0.08),transparent)]" />
         
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
