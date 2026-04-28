@@ -1,11 +1,49 @@
 import { Link } from "react-router-dom";
 import { Github, Linkedin, Mail, ArrowUp, MapPin, Phone, Send } from "lucide-react";
 import { FaTiktok } from "react-icons/fa6";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { apiClient } from "@/lib/api";
 
 const Footer = () => {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const email = newsletterEmail.trim();
+    if (!email) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email to subscribe.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubscribing(true);
+    try {
+      await apiClient.subscribeNewsletter(email);
+      toast({
+        title: "Thank you for subscribing to our newsletter",
+        description: "You're on the list.",
+      });
+      setNewsletterEmail("");
+    } catch (error: any) {
+      toast({
+        title: "Subscription failed",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
   };
 
   const footerLinks = {
@@ -39,7 +77,7 @@ const Footer = () => {
     { icon: Github, href: "#", label: "GitHub" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/selybi-corp/", label: "LinkedIn" },
     { icon: FaTiktok, href: "https://www.tiktok.com/@selybi_2025", label: "TikTok" },
-    { icon: Mail, href: "mailto:contact@selybi.com", label: "Email" }
+    { icon: Mail, href: "mailto:inquiries@selybi.com", label: "Email" }
   ];
 
   return (
@@ -54,16 +92,19 @@ const Footer = () => {
                 Get the latest insights on software development and technology trends.
               </p>
             </div>
-            <div className="flex w-full max-w-md gap-3">
+            <form className="flex w-full max-w-md gap-3" onSubmit={handleNewsletterSubmit}>
               <input
                 type="email"
                 placeholder="Enter your email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                required
                 className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-primary transition-colors text-white placeholder:text-slate-500"
               />
-              <Button className="bg-primary hover:bg-primary/90 px-6">
+              <Button className="bg-primary hover:bg-primary/90 px-6" type="submit" disabled={isSubscribing}>
                 <Send className="h-4 w-4" />
               </Button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -94,8 +135,8 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3 text-slate-400">
                 <Mail className="h-4 w-4 text-primary" />
-                <a href="mailto:contact@selybi.com" className="hover:text-white transition-colors">
-                  contact@selybi.com
+                <a href="mailto:inquiries@selybi.com" className="hover:text-white transition-colors">
+                  inquiries@selybi.com
                 </a>
               </div>
               <div className="flex items-center gap-3 text-slate-400">

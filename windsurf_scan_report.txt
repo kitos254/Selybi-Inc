@@ -1,0 +1,7 @@
+Scan time: 04/26/2026 22:56:28
+
+=== UNINSTALL KEYS ===
+Windsurf (User) | 2.0.67 | Codeium | Microsoft.PowerShell.Core\Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\{5A8B7D94-9B5F-4D1F-93FC-5609F7159349}_is1
+
+=== RUN KEYS ===
+No run key matches

@@ -3,28 +3,58 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Create transporter
-const createTransporter = () => {
+const env = {
+  emailUser: process.env.EMAIL_USER?.trim(),
+  companyName: process.env.COMPANY_NAME?.trim() || 'Selybi',
+  frontendUrl: process.env.FRONTEND_URL?.trim() || 'http://localhost:5173',
+  googleClientId: process.env.GOOGLE_CLIENT_ID?.trim(),
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET?.trim(),
+  refreshToken: process.env.REFRESH_TOKEN?.trim(),
+};
+
+const hasOAuth2Config =
+  Boolean(env.googleClientId) &&
+  Boolean(env.googleClientSecret) &&
+  Boolean(env.refreshToken) &&
+  Boolean(env.emailUser);
+
+const createOAuth2Transporter = () => {
   return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT),
-    secure: false, // true for 465, false for other ports
+    service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      type: 'OAuth2',
+      user: env.emailUser,
+      clientId: env.googleClientId,
+      clientSecret: env.googleClientSecret,
+      refreshToken: env.refreshToken,
     },
   });
+};
+
+const sendEmail = async (mailOptions) => {
+  if (!hasOAuth2Config) {
+    return {
+      success: false,
+      error: 'OAuth2 email config missing. Set EMAIL_USER, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and REFRESH_TOKEN.',
+    };
+  }
+
+  try {
+    const oauthTransporter = createOAuth2Transporter();
+    const result = await oauthTransporter.sendMail(mailOptions);
+    return { success: true, messageId: result.messageId, transport: 'oauth2' };
+  } catch (oauthError) {
+    return { success: false, error: oauthError.message };
+  }
 };
 
 // Send verification email
 export const sendVerificationEmail = async (email, name, verificationToken) => {
   try {
-    const transporter = createTransporter();
-    
-    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+    const verificationUrl = `${env.frontendUrl}/verify-email?token=${verificationToken}`;
     
     const mailOptions = {
-      from: `"${process.env.COMPANY_NAME}" <${process.env.EMAIL_USER}>`,
+      from: `"${env.companyName}" <${env.emailUser}>`,
       to: email,
       subject: 'Verify Your Email Address',
       html: `
@@ -94,7 +124,7 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
         </head>
         <body>
           <div class="container">
-            <div class="logo">🚀 ${process.env.COMPANY_NAME}</div>
+            <div class="logo">🚀 ${env.companyName}</div>
             <h1>Welcome!</h1>
             
             <div class="content">
@@ -114,11 +144,11 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
               
               <p>If you didn't create this account, please ignore this email.</p>
               
-              <p>Best regards,<br>The ${process.env.COMPANY_NAME} Team</p>
+              <p>Best regards,<br>The ${env.companyName} Team</p>
             </div>
             
             <div class="footer">
-              <p>© 2025 ${process.env.COMPANY_NAME}. All rights reserved.</p>
+              <p>© 2025 ${env.companyName}. All rights reserved.</p>
               <p>This email was sent to ${email}</p>
             </div>
           </div>
@@ -139,13 +169,15 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
         If you didn't create this account, please ignore this email.
         
         Best regards,
-        The ${process.env.COMPANY_NAME} Team
+        The ${env.companyName} Team
       `
     };
 
-    const result = await transporter.sendMail(mailOptions);
-    console.log('Verification email sent successfully:', result.messageId);
-    return { success: true, messageId: result.messageId };
+    const result = await sendEmail(mailOptions);
+    if (result.success) {
+      console.log(`Verification email sent successfully via ${result.transport}:`, result.messageId);
+    }
+    return result;
   } catch (error) {
     console.error('Error sending verification email:', error);
     return { success: false, error: error.message };
@@ -155,10 +187,8 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
 // Send welcome email after verification
 export const sendWelcomeEmail = async (email, name) => {
   try {
-    const transporter = createTransporter();
-    
     const mailOptions = {
-      from: `"${process.env.COMPANY_NAME}" <${process.env.EMAIL_USER}>`,
+      from: `"${env.companyName}" <${env.emailUser}>`,
       to: email,
       subject: 'Welcome - Get Started!',
       html: `
@@ -229,18 +259,18 @@ export const sendWelcomeEmail = async (email, name) => {
               <p>You're now ready to get started!</p>
               
               <div style="text-align: center;">
-                <a href="${process.env.FRONTEND_URL}" class="button">Get Started</a>
+                <a href="${env.frontendUrl}" class="button">Get Started</a>
               </div>
               
               <p>Need help getting started? Contact our support team.</p>
               
               <p>Thank you for joining us!</p>
               
-              <p>Best regards,<br>The ${process.env.COMPANY_NAME} Team</p>
+              <p>Best regards,<br>The ${env.companyName} Team</p>
             </div>
             
             <div class="footer">
-              <p>© 2025 ${process.env.COMPANY_NAME}. All rights reserved.</p>
+              <p>© 2025 ${env.companyName}. All rights reserved.</p>
               <p>Happy bidding! 🚀</p>
             </div>
           </div>
@@ -249,11 +279,98 @@ export const sendWelcomeEmail = async (email, name) => {
       `
     };
 
-    const result = await transporter.sendMail(mailOptions);
-    console.log('Welcome email sent successfully:', result.messageId);
-    return { success: true, messageId: result.messageId };
+    const result = await sendEmail(mailOptions);
+    if (result.success) {
+      console.log(`Welcome email sent successfully via ${result.transport}:`, result.messageId);
+    }
+    return result;
   } catch (error) {
     console.error('Error sending welcome email:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Send newsletter subscription confirmation email
+export const sendNewsletterConfirmationEmail = async (email) => {
+  try {
+    const mailOptions = {
+      from: `"${env.companyName}" <${env.emailUser}>`,
+      to: email,
+      subject: `You're Subscribed to ${env.companyName} Newsletter`,
+      html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Newsletter Subscription</title>
+          <style>
+            body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              line-height: 1.6;
+              color: #1f2937;
+              max-width: 600px;
+              margin: 0 auto;
+              padding: 20px;
+              background: #f8fafc;
+            }
+            .card {
+              background: white;
+              border-radius: 12px;
+              padding: 28px;
+              border: 1px solid #e2e8f0;
+            }
+            .brand {
+              font-size: 24px;
+              font-weight: 700;
+              color: #0f172a;
+              margin-bottom: 8px;
+            }
+            .muted {
+              color: #64748b;
+              font-size: 14px;
+            }
+            .cta {
+              display: inline-block;
+              margin-top: 18px;
+              background: #0f172a;
+              color: #ffffff;
+              text-decoration: none;
+              padding: 10px 18px;
+              border-radius: 8px;
+              font-weight: 600;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <div class="brand">${env.companyName}</div>
+            <p>Thanks for subscribing to our newsletter.</p>
+            <p>You will now receive product updates, practical engineering insights, and selected project stories from our team.</p>
+            <a href="${env.frontendUrl}" class="cta">Visit Website</a>
+            <p class="muted" style="margin-top: 20px;">If you did not subscribe, you can ignore this email.</p>
+          </div>
+        </body>
+        </html>
+      `,
+      text: `
+        Thanks for subscribing to the ${env.companyName} newsletter.
+
+        You will now receive updates and insights from our team.
+
+        Visit: ${env.frontendUrl}
+
+        If you did not subscribe, you can ignore this email.
+      `,
+    };
+
+    const result = await sendEmail(mailOptions);
+    if (result.success) {
+      console.log(`Newsletter confirmation email sent successfully via ${result.transport}:`, result.messageId);
+    }
+    return result;
+  } catch (error) {
+    console.error('Error sending newsletter confirmation email:', error);
     return { success: false, error: error.message };
   }
 };

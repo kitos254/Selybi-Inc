@@ -10,7 +10,8 @@ const seedAdmin = async () => {
     console.log('🌱 Starting admin seeding process...');
     
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI);
+    const mongoUri = process.env.MONGODB_URI_MAIN || process.env.MONGODB_URI;
+    await mongoose.connect(mongoUri);
     console.log('✅ Connected to MongoDB');
 
     // Check if admin already exists

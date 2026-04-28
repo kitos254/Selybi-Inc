@@ -1,53 +1,43 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Play, CheckCircle, Sparkles, Globe, Smartphone, Code2 } from "lucide-react";
+import {
+  ArrowRight,
+  Play,
+  Globe,
+  Smartphone,
+  Code2,
+  ShieldCheck,
+  Zap,
+  Clock3,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
-  const trustedBy = [
-    "Innovative Startups",
-    "Enterprise Clients",
-    "Tech Companies",
-    "Growing Businesses",
-  ];
-
   return (
-    <section className="relative min-h-[calc(100dvh-4rem)] lg:min-h-[calc(100dvh-5rem)] -mt-16 pt-16 lg:pt-28 pb-0 overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100">
-      {/* Elegant Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(107,114,128,0.08),transparent)]" />
-      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-gray-200/50 via-transparent to-transparent" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-gray-200/50 via-transparent to-transparent" />
-      
-      {/* Subtle accent orbs */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gray-300/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-300/20 rounded-full blur-3xl" />
+    <section className="relative h-[100vh] overflow-hidden bg-slate-900">
+      <div className="absolute inset-0">
+        <img
+          src="/Hero_Bg.jpeg"
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full object-cover object-center"
+        />
+      </div>
 
-      <div className="relative max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-0 sm:gap-12 lg:gap-16 items-start lg:items-center lg:min-h-[calc(100dvh-5rem)]">
-          {/* Left Content */}
-          <div className="text-center lg:text-left pt-6 lg:pt-0 px-4 sm:px-0 order-2 lg:order-1">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/20 mb-6 animate-fade-in-up">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Trusted by 50+ businesses worldwide</span>
-            </div>
-
-            {/* Main Heading */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 leading-tight mb-4 sm:mb-6 animate-fade-in-up stagger-1">
-              Build Software That{" "}
-              <span className="text-gradient">Drives Growth</span>
+      <div className="relative mx-auto h-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid h-full items-center gap-8 pb-20 pt-20 sm:pb-24 sm:pt-24 lg:grid-cols-2 lg:gap-12 lg:pb-28 lg:pt-28">
+          <div className="order-2 flex h-full flex-col justify-center text-center lg:order-1 lg:text-left">
+            <h1 className="font-display animate-fade-in-up stagger-1 w-full whitespace-nowrap text-[clamp(3.8rem,15vw,12rem)] font-bold leading-none tracking-tight text-white">
+              Selybi
             </h1>
 
-            {/* Subheading */}
-            <p className="text-base sm:text-xl text-slate-600 max-w-xl mx-auto lg:mx-0 mb-6 sm:mb-8 animate-fade-in-up stagger-2">
-              We transform your ideas into powerful digital solutions. From web apps to mobile platforms, 
-              we deliver exceptional software that scales with your business.
+            <p className="mx-auto mb-8 mt-4 max-w-xl animate-fade-in-up stagger-2 text-2xl font-medium leading-relaxed text-white sm:text-3xl lg:mx-0">
+              We Deliver
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 sm:mb-10 animate-fade-in-up stagger-3">
-              <Button 
-                size="lg" 
-                className="bg-primary hover:bg-primary/90 text-white font-semibold px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-all"
+            <div className="mb-0 flex animate-fade-in-up stagger-3 flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+              <Button
+                size="lg"
+                className="h-12 bg-slate-900 px-8 text-base font-semibold text-white shadow-lg shadow-slate-900/25 hover:-translate-y-0.5 hover:bg-slate-800"
                 asChild
               >
                 <Link to="/contact">
@@ -55,83 +45,78 @@ const Hero = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="font-semibold px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg border-slate-300 hover:bg-slate-50"
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-12 border-white/45 bg-white/20 px-8 text-base font-semibold text-white backdrop-blur hover:bg-white/30"
                 asChild
               >
                 <Link to="/projects">
-                  <Play className="mr-2 h-5 w-5" />
+                  <Play className="mr-2 h-4 w-4" />
                   View Our Work
                 </Link>
               </Button>
             </div>
-
-            {/* Trust Indicators */}
-            <div className="animate-fade-in-up stagger-4">
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center lg:justify-start text-sm text-slate-500">
-                {[
-                  "No upfront costs",
-                  "Free consultation",
-                  "Ongoing support",
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-500" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
-          {/* Right Content - Hero Image */}
-          <div className="relative lg:pl-8 animate-fade-in-up stagger-2 order-1 lg:order-2">
-            <div className="relative">
-              {/* Decorative elements behind image */}
-              <div className="hidden sm:block absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-primary/20 to-emerald-500/20 rounded-3xl" />
-              <div className="hidden sm:block absolute -bottom-4 -left-4 w-full h-full bg-gradient-to-tr from-emerald-500/10 to-primary/10 rounded-3xl" />
-              
-              {/* Main Image */}
-              <div className="relative rounded-none sm:rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src="/Hero.jpg" 
-                  alt="Software Development Team at Work" 
-                  className="w-full h-auto object-cover aspect-[4/3]"
+          <div className="order-1 flex h-full items-center animate-fade-in-up stagger-2 lg:order-2 lg:pl-4">
+            <div className="relative mx-auto w-full max-w-xl xl:max-w-2xl">
+              <div className="absolute -left-4 -top-4 hidden h-full w-full rounded-[1.75rem] bg-gradient-to-br from-slate-900/15 to-transparent sm:block" />
+              <div className="absolute -bottom-4 -right-4 hidden h-full w-full rounded-[1.75rem] bg-gradient-to-tr from-emerald-200/60 to-transparent sm:block" />
+
+              <div className="relative overflow-hidden rounded-2xl border border-white/70 bg-white shadow-2xl shadow-slate-700/10 sm:rounded-[1.75rem]">
+                <img
+                  src="/Hero.jpg"
+                  alt="Software development team planning and building products"
+                  className="aspect-[4/3] w-full object-cover"
                 />
-                
-                {/* Floating Stats Card */}
-                <div className="absolute bottom-6 left-6 right-6 sm:left-auto sm:right-6 sm:w-64 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-white/50">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center">
-                      <Code2 className="w-6 h-6 text-white" />
+
+                <div className="absolute bottom-4 left-4 right-4 grid gap-3 sm:bottom-6 sm:left-6 sm:right-6">
+                  <div className="rounded-2xl border border-white/80 bg-white/95 p-4 shadow-lg backdrop-blur">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-slate-900 to-slate-700">
+                        <Code2 className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold text-slate-900">100+</p>
+                        <p className="text-sm text-slate-600">Projects delivered end-to-end</p>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-slate-900">100+</div>
-                      <div className="text-sm text-slate-600">Projects Delivered</div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 rounded-2xl border border-white/80 bg-white/92 p-3 text-xs font-semibold text-slate-600 shadow-lg backdrop-blur">
+                    <div className="flex items-center justify-center gap-1 rounded-xl bg-slate-100 py-2">
+                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                      Secure
+                    </div>
+                    <div className="flex items-center justify-center gap-1 rounded-xl bg-slate-100 py-2">
+                      <Zap className="h-3.5 w-3.5 text-amber-500" />
+                      Fast
+                    </div>
+                    <div className="flex items-center justify-center gap-1 rounded-xl bg-slate-100 py-2">
+                      <Clock3 className="h-3.5 w-3.5 text-primary" />
+                      Agile
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Feature badges floating around image */}
-              <div className="hidden lg:flex absolute -top-2 -right-2 items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg border border-slate-100">
-                <Globe className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-slate-700">Web Apps</span>
+              <div className="absolute -right-2 top-6 hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-md lg:flex">
+                <Globe className="h-4 w-4 text-primary" />
+                Web Platforms
               </div>
-              
-              <div className="hidden lg:flex absolute top-1/2 -left-4 items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg border border-slate-100">
-                <Smartphone className="w-4 h-4 text-emerald-500" />
-                <span className="text-sm font-medium text-slate-700">Mobile</span>
+
+              <div className="absolute -left-3 top-1/2 hidden -translate-y-1/2 items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-md lg:flex">
+                <Smartphone className="h-4 w-4 text-emerald-500" />
+                Mobile Ready
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Wave */}
-      <div className="relative mt-8 sm:mt-12">
-        <svg className="w-full h-16 sm:h-24 text-white block" viewBox="0 0 1440 100" fill="currentColor" preserveAspectRatio="none">
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg className="block h-16 w-full text-white sm:h-24" viewBox="0 0 1440 100" fill="currentColor" preserveAspectRatio="none">
           <path d="M0,50 C360,100 1080,0 1440,50 L1440,100 L0,100 Z" />
         </svg>
       </div>

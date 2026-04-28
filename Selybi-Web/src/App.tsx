@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -26,6 +26,38 @@ import MarkMotiso from "./pages/portfolio/MarkMotiso";
 
 const queryClient = new QueryClient();
 
+const AppLayout = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <Navbar />
+      <main className={`flex-1 ${isHomePage ? 'pt-0' : 'pt-16 lg:pt-20'}`}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/edora" element={<EdoraPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          {/* Portfolio routes */}
+          <Route path="/portfolio/elvis-kiplimo" element={<ElvisKiplimo />} />
+          <Route path="/portfolio/kelvin-nguwa" element={<KelvinNguwa />} />
+          <Route path="/portfolio/collins-toroitich" element={<CollinsToroitich />} />
+          <Route path="/portfolio/mark-motiso" element={<MarkMotiso />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -34,30 +66,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <ScrollToTop />
-          <div className="min-h-screen bg-background flex flex-col">
-            <Navbar />
-            <main className="flex-1 pt-16">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/projects" element={<ProjectsPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/edora" element={<EdoraPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/verify-email" element={<VerifyEmail />} />
-                {/* Portfolio routes */}
-                <Route path="/portfolio/elvis-kiplimo" element={<ElvisKiplimo />} />
-                <Route path="/portfolio/kelvin-nguwa" element={<KelvinNguwa />} />
-                <Route path="/portfolio/collins-toroitich" element={<CollinsToroitich />} />
-                <Route path="/portfolio/mark-motiso" element={<MarkMotiso />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <AppLayout />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

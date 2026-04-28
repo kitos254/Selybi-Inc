@@ -4,11 +4,12 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
 import authRoutes from './routes/auth.js';
 import projectRoutes from './routes/projects.js';
 import clientRoutes from './routes/clients.js';
 import contactRoutes from './routes/contacts.js';
+import newsletterRoutes from './routes/newsletter.js';
+import { connectDatabaseWithFallback, startBackupScheduler } from './config/database.js';
 
 // Load environment variables
 dotenv.config();
@@ -62,23 +63,12 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/selybi-admin';
-mongoose.connect(mongoUri)
-.then(() => {
-  console.log('✅ Connected to MongoDB');
-  console.log(`📊 Database: ${mongoUri.includes('localhost') ? 'Local MongoDB' : 'MongoDB Atlas'}`);
-})
-.catch((error) => {
-  console.error('❌ MongoDB connection error:', error);
-  process.exit(1);
-});
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/clients', clientRoutes);
 app.use('/api/contacts', contactRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -110,13 +100,27 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🌐 CORS allowed origins: ${allowedOrigins.join(', ')}`);
-  console.log(`🔗 Server URL: http://localhost:${PORT}`);
-  console.log(`💻 Admin Dashboard: http://localhost:8082`);
-});
+// Start server after DB connection is established
+const startServer = async () => {
+  try {
+    const dbConnection = await connectDatabaseWithFallback();
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🌐 CORS allowed origins: ${allowedOrigins.join(', ')}`);
+      console.log(`🔗 Server URL: http://localhost:${PORT}`);
+      console.log(`💻 Admin Dashboard: http://localhost:8082`);
+      console.log(`🗄️ Active database: ${dbConnection.active}`);
+    });
+
+    startBackupScheduler();
+  } catch (error) {
+    console.error('❌ Failed to start server:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;

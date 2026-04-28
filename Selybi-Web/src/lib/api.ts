@@ -139,6 +139,14 @@ class ApiClient {
       body: JSON.stringify(contactData),
     });
   }
+
+  // Newsletter endpoints
+  async subscribeNewsletter(email: string): Promise<ApiResponse> {
+    return this.request('/newsletter/subscribe', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
