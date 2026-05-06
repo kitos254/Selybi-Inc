@@ -118,7 +118,7 @@ const Footer = () => {
               <img 
                 src="/Selybi_Logo.png" 
                 alt="Selybi Logo" 
-                className="h-10 w-10" 
+                className="h-12 w-12 rounded-full" 
               />
               <span className="text-2xl font-bold text-gradient">Selybi</span>
             </Link>

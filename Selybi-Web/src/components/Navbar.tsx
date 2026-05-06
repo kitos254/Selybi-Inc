@@ -58,7 +58,7 @@ const Navbar = () => {
             <img 
               src="/Selybi_Logo.png" 
               alt="Selybi Logo" 
-              className="h-9 w-9 transition-transform group-hover:scale-105" 
+              className="h-14 w-14 rounded-full object-cover transition-transform group-hover:scale-105" 
             />
             <span className={`text-2xl font-semibold ${isTransparent ? 'text-white' : 'text-gray-900'}`} style={{ fontFamily: "'Poppins', sans-serif" }}>Selybi</span>
           </Link>
