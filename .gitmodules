@@ -1,0 +1,3 @@
+[submodule "Selybi_Client"]
+	path = Selybi_Client
+	url = https://github.com/SelybiInc/selybi-client-hub.git
