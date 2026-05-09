@@ -75,82 +75,32 @@ const AboutPage = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative -mt-16 pt-16 lg:pt-28 pb-8 sm:pb-16 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 overflow-hidden">
-        {/* Background decorations */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(107,114,128,0.08),transparent)]" />
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-gray-200/50 via-transparent to-transparent" />
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-gray-200/50 via-transparent to-transparent" />
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gray-300/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-300/20 rounded-full blur-3xl" />
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-0 sm:gap-12 lg:gap-16 items-start lg:items-center">
-            {/* Content */}
-            <div className="text-center lg:text-left pt-6 lg:pt-0 px-4 sm:px-0 order-2 lg:order-1">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-900/5 border border-gray-900/10 mb-6">
-                <span className="text-sm font-medium text-gray-700">About Selybi</span>
-              </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
-                We build software that{" "}
-                <span className="text-primary">matters</span>
-              </h1>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
-                A forward-thinking software development company founded on June 16, 2025. 
-                We create innovative solutions that empower businesses and transform industries.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
-                <Button
-                  size="lg"
-                  className="bg-gray-900 hover:bg-gray-800 text-white font-medium px-6 sm:px-8 w-full sm:w-auto"
-                  asChild
-                >
-                  <Link to="/contact">
-                    Get in Touch
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="font-medium border-gray-300 text-gray-900 hover:bg-gray-100 w-full sm:w-auto"
-                  asChild
-                >
-                  <Link to="/projects">View Our Work</Link>
-                </Button>
-              </div>
-            </div>
-            
-            {/* Image */}
-            <div className="relative lg:pl-8 order-1 lg:order-2">
-              <div className="relative">
-                {/* Decorative elements behind image */}
-                <div className="hidden sm:block absolute -top-4 -right-4 w-full h-full bg-gradient-to-br from-primary/20 to-emerald-500/20 rounded-3xl" />
-                <div className="hidden sm:block absolute -bottom-4 -left-4 w-full h-full bg-gradient-to-tr from-emerald-500/10 to-primary/10 rounded-3xl" />
-                
-                {/* Main Image */}
-                <div className="relative rounded-none sm:rounded-3xl overflow-hidden shadow-2xl">
-                  <img 
-                    src="/image 1.jpg" 
-                    alt="Selybi Team" 
-                    className="w-full h-auto object-cover aspect-[4/3]"
-                  />
-                  
-                  {/* Floating Stats Card */}
-                  <div className="absolute bottom-6 left-6 right-6 sm:left-auto sm:right-6 sm:w-64 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-white/50">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center">
-                        <CheckCircle className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold text-gray-900">50+</p>
-                        <p className="text-sm text-gray-500">Projects Delivered</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <section className="relative overflow-hidden pb-20">
+        <div className="absolute inset-0" style={{ background: 'hsl(222,47%,9%)' }} />
+        <div className="absolute inset-0 bg-dots-pattern opacity-[0.05]" />
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] opacity-15 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse, hsl(221,83%,53%,0.2) 0%, transparent 70%)' }} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <span className="section-label mb-5 block" style={{ background: 'hsl(221,83%,53%,0.12)', color: 'hsl(221,83%,72%)', borderColor: 'hsl(221,83%,53%,0.28)' }}>About Selybi</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight mb-6"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Building the Infrastructure<br />for{" "}
+              <span style={{
+                background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+              }}>Intelligent Systems</span>
+            </h1>
+            <p className="text-white/55 text-lg sm:text-xl leading-relaxed mb-10 max-w-2xl">
+              Selybi is an AI systems company and data infrastructure provider founded in 2025. We build the tools and teams that turn raw data into production-ready AI — powered by LizaLab.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button size="lg" className="rounded-full px-8 py-6 font-semibold bg-white text-foreground hover:bg-white/95 shadow-xl shadow-black/30" asChild>
+                <Link to="/contact">Get in Touch <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              </Button>
+              <Button size="lg" variant="outline" className="rounded-full px-8 py-6 font-semibold border-white/20 text-white bg-white/6 hover:bg-white/12" asChild>
+                <Link to="/projects">View Our Work</Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -291,36 +241,31 @@ const AboutPage = () => {
       </section>
 
       {/* Vision & Mission Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Vision */}
-            <div className="bg-white rounded-2xl p-10 border border-gray-100">
-              <div className="w-12 h-12 rounded-xl bg-gray-900 flex items-center justify-center mb-6">
-                <Eye className="w-6 h-6 text-white" />
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="section-label mb-4">Mission & Vision</span>
+            <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-foreground" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Why We Exist
+            </h2>
+          </div>
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="ai-card p-10 bg-white border border-border/60">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
+                <Eye className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Our Vision
-              </h3>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                To become a global leader in delivering groundbreaking software
-                solutions that inspire innovation, drive progress, and shape the
-                digital future.
+              <h3 className="text-2xl font-bold text-foreground mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Our Vision</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                To become the leading AI infrastructure company — powering the next generation of intelligent systems through world-class data tooling and AI engineering.
               </p>
             </div>
-
-            {/* Mission */}
-            <div className="bg-white rounded-2xl p-10 border border-gray-100">
-              <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center mb-6">
-                <Target className="w-6 h-6 text-white" />
+            <div className="ai-card p-10 border border-amber-500/20" style={{ background: 'linear-gradient(135deg, rgba(245,158,11,0.05), rgba(245,158,11,0.02))' }}>
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-6">
+                <Target className="w-6 h-6 text-amber-700" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Our Mission
-              </h3>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                To empower businesses, institutions, and individuals by building
-                reliable, intelligent, and user-centered software systems that
-                make a real impact.
+              <h3 className="text-2xl font-bold text-foreground mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Our Mission</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                To make it radically easier for AI teams to go from raw data to production models — by providing LizaLab, expert annotation services, and AI-first engineering.
               </p>
             </div>
           </div>
@@ -330,44 +275,25 @@ const AboutPage = () => {
       {/* Values Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <p className="text-sm font-semibold text-blue-600 tracking-wide uppercase mb-4">
-              Our Values
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-14">
+            <span className="section-label mb-4">Our Values</span>
+            <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-foreground" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               What We Stand For
             </h2>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              {
-                title: "Innovation",
-                desc: "Embracing creativity and cutting-edge technologies",
-              },
-              {
-                title: "Reliability",
-                desc: "Building systems our clients can depend on",
-              },
-              {
-                title: "Excellence",
-                desc: "Committed to the highest standards of quality",
-              },
-              {
-                title: "Integrity",
-                desc: "Honest and transparent in everything we do",
-              },
-            ].map((value, index) => (
-              <div key={index} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-xl font-bold text-gray-900">
-                    {index + 1}
-                  </span>
+              { num: "01", title: "Precision", desc: "Every label, every line of code — quality is non-negotiable." },
+              { num: "02", title: "Reliability", desc: "AI infrastructure that teams can depend on at any scale." },
+              { num: "03", title: "Transparency", desc: "Honest delivery timelines, pricing, and communication." },
+              { num: "04", title: "Ambition", desc: "We're building for the frontier — not the status quo." },
+            ].map((value) => (
+              <div key={value.num} className="ai-card p-6 bg-background border border-border/60 text-center">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-sm font-bold text-primary">{value.num}</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  {value.title}
-                </h3>
-                <p className="text-gray-600 text-sm">{value.desc}</p>
+                <h3 className="font-bold text-foreground mb-2">{value.title}</h3>
+                <p className="text-muted-foreground text-sm">{value.desc}</p>
               </div>
             ))}
           </div>
@@ -520,33 +446,21 @@ const AboutPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+      <section className="py-20 relative overflow-hidden" style={{ background: 'hsl(222,47%,9%)' }}>
+        <div className="absolute inset-0 bg-dots-pattern opacity-[0.05]" />
+        <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             Ready to Build Something Great?
           </h2>
-          <p className="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">
-            Let's discuss your project and discover how Selybi can transform
-            your vision into reality.
+          <p className="text-white/50 mb-8 max-w-xl mx-auto">
+            Let's discuss your project and discover how Selybi can transform your vision into reality.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-gray-900 hover:bg-gray-100 font-medium px-8"
-              asChild
-            >
-              <Link to="/contact">
-                Start Your Project
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button size="lg" className="rounded-full px-8 font-semibold bg-white text-foreground hover:bg-white/95 shadow-xl" asChild>
+              <Link to="/contact">Start a Project <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="font-medium border-gray-700 text-white hover:bg-gray-800"
-              asChild
-            >
-              <Link to="/services">Our Services</Link>
+            <Button size="lg" variant="outline" className="rounded-full px-8 font-semibold border-white/20 text-white bg-white/6 hover:bg-white/12" asChild>
+              <Link to="/solutions">Our Solutions</Link>
             </Button>
           </div>
         </div>

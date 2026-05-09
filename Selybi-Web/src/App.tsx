@@ -10,7 +10,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Home from "./pages/Home";
 import AboutPage from "./pages/AboutPage";
-import Services from "./pages/Services";
+import PlatformPage from "./pages/PlatformPage";
+import SolutionsPage from "./pages/SolutionsPage";
+import IndustriesPage from "./pages/IndustriesPage";
+import CareersPage from "./pages/CareersPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import EdoraPage from "./pages/EdoraPage";
@@ -33,11 +36,15 @@ const AppLayout = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <main className={`flex-1 ${isHomePage ? 'pt-0' : 'pt-16 lg:pt-20'}`}>
+      <main className="flex-1 pt-16">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<Services />} />
+          <Route path="/platform" element={<PlatformPage />} />
+          <Route path="/solutions" element={<SolutionsPage />} />
+          <Route path="/services" element={<SolutionsPage />} />
+          <Route path="/industries" element={<IndustriesPage />} />
+          <Route path="/careers" element={<CareersPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/edora" element={<EdoraPage />} />

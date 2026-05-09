@@ -1,238 +1,179 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, ChevronDown, User, LogOut, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronDown, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+
+const NAV_BG = "#ffffff";
+const NAV_BORDER = "#e5e7eb";
+
+const navLinks = [
+  { name: "Platform", href: "/platform" },
+  { name: "Solutions", href: "/solutions" },
+  { name: "Projects", href: "/projects" },
+  { name: "Industries", href: "/industries" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
-  const isHomePage = location.pathname === "/";
-  const isTransparent = isHomePage && !isScrolled;
-  const mobileSidebarGlassStyle = {
-    backdropFilter: 'blur(14px) saturate(145%)',
-    WebkitBackdropFilter: 'blur(14px) saturate(145%)',
-    backgroundColor: isHomePage ? 'rgba(15, 23, 42, 0.36)' : 'rgb(255, 255, 255)',
-  };
-  const activeTabClass = isHomePage
-    ? "text-emerald-900 font-bold text-[1.03rem] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-emerald-900"
-    : "text-primary font-bold text-[1.03rem] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary";
 
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Services", href: "/services" },
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const isActive = (href: string) => location.pathname === href;
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isTransparent
-        ? 'bg-transparent'
-        : 'bg-white/10 backdrop-blur-[16px] shadow-[0_12px_36px_rgba(2,6,23,0.2)] ring-1 ring-white/25'
-    }`}>
-      {/* Main Navigation */}
+    <header
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{ background: NAV_BG, borderBottom: `1px solid ${NAV_BORDER}` }}
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 lg:h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <img 
-              src="/Selybi_Logo.png" 
-              alt="Selybi Logo" 
-              className="h-14 w-14 rounded-full object-cover transition-transform group-hover:scale-105" 
-            />
-            <span className={`text-2xl font-semibold ${isTransparent ? 'text-white' : 'text-gray-900'}`} style={{ fontFamily: "'Poppins', sans-serif" }}>Selybi</span>
+        <div className="flex items-center justify-between h-16">
+
+          {/* ── Logo ── */}
+          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+            <img src="/Selybi_Logo.png" alt="Selybi" className="w-8 h-8 rounded-full object-cover" />
+            <span className="text-gray-900 font-semibold text-base tracking-tight"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Selybi
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
+          {/* ── Desktop Nav Links ── */}
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className={`relative py-2 font-medium transition-colors duration-200 ${
-                  location.pathname === link.href
-                    ? activeTabClass
-                    : `${isTransparent ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-primary'} after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full`
-                }`}
+                className="px-3.5 py-1.5 text-sm rounded-md transition-colors duration-150"
+                style={{
+                  color: isActive(link.href) ? '#111827' : '#6b7280',
+                  fontWeight: isActive(link.href) ? 500 : 400,
+                }}
+                onMouseEnter={e => {
+                  if (!isActive(link.href)) (e.currentTarget as HTMLElement).style.color = '#111827';
+                }}
+                onMouseLeave={e => {
+                  if (!isActive(link.href)) (e.currentTarget as HTMLElement).style.color = '#6b7280';
+                }}
               >
                 {link.name}
               </Link>
             ))}
           </div>
 
-          {/* Desktop Auth Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* ── Desktop Right ── */}
+          <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className={`font-medium flex items-center gap-2 ${isTransparent ? 'text-white hover:bg-white/10 hover:text-white' : 'text-slate-700'}`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isTransparent ? 'bg-white/15' : 'bg-primary/10'}`}>
-                      <User className={`h-4 w-4 ${isTransparent ? 'text-white' : 'text-primary'}`} />
+                  <button className="flex items-center gap-2 px-3 py-1.5 rounded-full text-gray-500 hover:text-gray-900 transition-colors text-sm">
+                    <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs font-semibold text-gray-700">
+                      {user?.name?.charAt(0)}
                     </div>
-                    <span>{user?.name}</span>
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
+                    <ChevronDown className="h-3.5 w-3.5 opacity-40" />
+                  </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuContent align="end" className="w-44">
                   <DropdownMenuItem asChild>
-                    <Link to="/" className="flex items-center">
-                      <User className="mr-2 h-4 w-4" />
-                      Dashboard
+                    <Link to="/" className="flex items-center gap-2 text-sm">
+                      <User className="h-3.5 w-3.5" /> Dashboard
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    onClick={logout}
-                    className="flex items-center text-red-600 focus:text-red-600"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
+                  <DropdownMenuItem onClick={logout} className="flex items-center gap-2 text-sm text-red-600 focus:text-red-600">
+                    <LogOut className="h-3.5 w-3.5" /> Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button 
-                className={`relative overflow-hidden font-medium px-6 rounded-full border border-white/40 bg-white/18 backdrop-blur-md transition-all duration-300 group before:absolute before:inset-x-4 before:top-0 before:h-px before:bg-white/70 before:content-[''] after:absolute after:inset-0 after:rounded-full after:bg-gradient-to-b after:from-white/20 after:to-transparent after:opacity-60 after:content-[''] shadow-[0_8px_18px_rgba(2,6,23,0.22),inset_0_1px_0_rgba(255,255,255,0.45),inset_0_-1px_0_rgba(255,255,255,0.33)] hover:bg-emerald-500/24 hover:border-emerald-300/70 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(4,120,87,0.3),inset_0_1px_0_rgba(255,255,255,0.55),inset_0_-1px_0_rgba(255,255,255,0.45)] active:translate-y-0 active:shadow-[0_6px_14px_rgba(4,120,87,0.24),inset_0_1px_0_rgba(255,255,255,0.45),inset_0_-1px_0_rgba(255,255,255,0.33)] ${
-                  isTransparent ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-primary'
-                }`}
-                asChild
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-medium text-white transition-all hover:opacity-90"
+                style={{ background: '#111827' }}
               >
-                <Link to="/contact">
-                  <span className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-emerald-400/0 via-emerald-300/70 to-emerald-400/0 transition-transform duration-700 ease-out group-hover:translate-x-[120%]" />
-                  <span className="relative z-10">Get Started</span>
-                  <ArrowRight className="relative z-10 ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
+                Get in touch
+              </Link>
             )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* ── Mobile Hamburger ── */}
           <button
-            className={`lg:hidden p-2 rounded-lg transition-colors ${isTransparent ? 'text-white hover:bg-white/15' : 'text-slate-700 hover:bg-slate-100'}`}
+            className="lg:hidden p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </nav>
 
-      <div className={`w-full transition-all duration-300 ${isTransparent ? 'px-4 sm:px-6 lg:px-8' : 'px-0'}`}>
-        <div className={`h-px animate-divider-center-out transition-colors duration-300 ${isTransparent ? 'bg-white/85' : 'bg-white/65'}`} />
-      </div>
-
-      {/* Mobile Navigation - Slide in from right */}
-      <div 
-        className={`lg:hidden fixed top-16 lg:top-20 right-0 h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-5rem)] w-full max-w-sm transform transition-transform duration-300 ease-in-out z-40 rounded-bl-3xl backdrop-blur-[14px] ${
-          isHomePage
-            ? 'border-l border-white/20 shadow-2xl'
-            : 'bg-white shadow-2xl'
-        } ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-        style={mobileSidebarGlassStyle}
+      {/* ── Mobile Drawer ── */}
+      <div
+        className={`lg:hidden fixed top-16 right-0 h-[calc(100dvh-4rem)] w-72 transform transition-transform duration-300 ease-in-out z-40 flex flex-col`}
+        style={{
+          background: '#ffffff',
+          borderLeft: `1px solid ${NAV_BORDER}`,
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+        }}
       >
-        <div className="h-full flex flex-col px-6 py-6">
-          <div className="flex-1 space-y-2">
+        <div className="flex-1 flex flex-col px-4 py-5 overflow-y-auto">
+          <div className="space-y-0.5">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className={`block px-4 py-4 rounded-xl font-medium text-lg transition-colors ${
-                  location.pathname === link.href
-                    ? isHomePage
-                      ? "text-white bg-white/20"
-                      : "text-gray-900 bg-gray-100"
-                    : isHomePage
-                      ? "text-white/90 hover:bg-white/10 hover:text-white"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                }`}
                 onClick={() => setIsOpen(false)}
+                className="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors"
+                style={{
+                  color: isActive(link.href) ? '#111827' : '#6b7280',
+                  background: isActive(link.href) ? '#f3f4f6' : 'transparent',
+                }}
               >
                 {link.name}
               </Link>
             ))}
           </div>
 
-          {/* Mobile Auth Buttons */}
-          <div className={`pt-6 mt-6 border-t space-y-3 ${isHomePage ? 'border-white/20' : 'border-gray-100'}`}>
+          <div className="mt-auto pt-5 border-t space-y-3" style={{ borderColor: NAV_BORDER }}>
             {isAuthenticated ? (
               <>
-                <div className={`px-4 py-2 text-sm ${isHomePage ? 'text-white/75' : 'text-gray-500'}`}>
-                  Signed in as <span className={`font-medium ${isHomePage ? 'text-white' : 'text-gray-900'}`}>{user?.name}</span>
-                </div>
-                <Button variant="ghost" className={`w-full justify-start font-medium ${isHomePage ? 'text-white hover:bg-white/10 hover:text-white' : ''}`} asChild>
-                  <Link to="/" onClick={() => setIsOpen(false)}>
-                    <User className="mr-2 h-4 w-4" /> Dashboard
-                  </Link>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className={`w-full justify-start font-medium ${isHomePage ? 'text-red-200 border-white/25 bg-white/5 hover:bg-white/10 hover:text-red-100' : 'text-red-600 border-red-200 hover:bg-red-50'}`}
-                  onClick={() => {
-                    logout();
-                    setIsOpen(false);
-                  }}
+                <p className="px-4 text-xs text-white/40">Signed in as <span className="text-white/70 font-medium">{user?.name}</span></p>
+                <button
+                  onClick={() => { logout(); setIsOpen(false); }}
+                  className="w-full flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
                 >
-                  <LogOut className="mr-2 h-4 w-4" /> Logout
-                </Button>
+                  <LogOut className="h-4 w-4" /> Logout
+                </button>
               </>
             ) : (
-              <Button className={`group relative w-full overflow-hidden rounded-full border py-6 text-base font-medium backdrop-blur-md transition-all duration-300 before:absolute before:inset-x-6 before:top-0 before:h-px before:bg-white/70 before:content-[''] after:absolute after:inset-0 after:rounded-full after:bg-gradient-to-b after:from-white/20 after:to-transparent after:opacity-60 after:content-[''] hover:bg-emerald-500/24 hover:border-emerald-300/70 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(4,120,87,0.3),inset_0_1px_0_rgba(255,255,255,0.55)] ${
-                isHomePage
-                  ? 'border-white/30 bg-white/14 text-white shadow-[0_8px_18px_rgba(2,6,23,0.3),inset_0_1px_0_rgba(255,255,255,0.35),inset_0_-1px_0_rgba(255,255,255,0.28)] hover:text-white'
-                  : 'border-white/40 bg-white/18 text-gray-700 shadow-[0_8px_18px_rgba(2,6,23,0.22),inset_0_1px_0_rgba(255,255,255,0.45),inset_0_-1px_0_rgba(255,255,255,0.35)] hover:text-gray-900'
-              }`} asChild>
-                <Link to="/contact" onClick={() => setIsOpen(false)}>
-                  <span className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-emerald-400/0 via-emerald-300/70 to-emerald-400/0 transition-transform duration-700 ease-out group-hover:translate-x-[120%]" />
-                  <span className="relative z-10">Get Started</span>
-                  <ArrowRight className="relative z-10 ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              <Link
+                to="/contact"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center w-full py-2.5 rounded-full text-sm font-medium text-white transition-all hover:opacity-90"
+                style={{ background: '#111827' }}
+              >
+                Get in touch
+              </Link>
             )}
           </div>
 
-          {/* Footer in mobile menu */}
-          <div className={`pt-6 mt-auto border-t ${isHomePage ? 'border-white/20' : 'border-gray-100'}`}>
-            <div className={`flex items-center justify-center gap-4 text-sm mb-3 ${isHomePage ? 'text-white/75' : 'text-gray-500'}`}>
-              <Link to="/privacy-policy" onClick={() => setIsOpen(false)} className={`transition-colors ${isHomePage ? 'hover:text-white' : 'hover:text-gray-900'}`}>
-                Privacy Policy
-              </Link>
-              <span>•</span>
-              <Link to="/terms" onClick={() => setIsOpen(false)} className={`transition-colors ${isHomePage ? 'hover:text-white' : 'hover:text-gray-900'}`}>
-                Terms & Conditions
-              </Link>
-            </div>
-            <p className={`text-center text-xs ${isHomePage ? 'text-white/60' : 'text-gray-400'}`}>
-              © {new Date().getFullYear()} Selybi. All rights reserved.
-            </p>
-          </div>
+          <p className="text-center text-xs text-gray-400 mt-4">© {new Date().getFullYear()} Selybi Inc.</p>
         </div>
       </div>
 
-      {/* Overlay when mobile menu is open */}
+      {/* Mobile overlay */}
       {isOpen && (
-        <div 
-          className={`lg:hidden fixed inset-0 top-16 lg:top-20 z-30 backdrop-blur-[6px] ${isHomePage ? 'bg-black/40' : 'bg-black/28'}`}
+        <div
+          className="lg:hidden fixed inset-0 top-16 z-30 bg-black/50"
           onClick={() => setIsOpen(false)}
         />
       )}

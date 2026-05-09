@@ -1,316 +1,258 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ExternalLink, ArrowRight, Smartphone, Globe, ShoppingCart, Database, Briefcase, Building2, Star, Quote } from "lucide-react";
+import {
+  ExternalLink, ArrowRight, Smartphone, Globe, Database,
+  Briefcase, CheckCircle, Tag, Brain, Code2, Server, Cpu,
+} from "lucide-react";
+
+const H = { fontFamily: "'Space Grotesk', sans-serif" };
+
+const Wave = ({ from, to, flip }: { from: string; to: string; flip?: boolean }) => (
+  <div className="relative h-10 overflow-hidden" style={{ background: flip ? to : from }}>
+    <svg viewBox="0 0 1440 40" preserveAspectRatio="none" className="absolute inset-0 w-full h-full"
+      style={{ transform: flip ? 'scaleY(-1)' : undefined }}>
+      <path d="M0,20 C360,40 1080,0 1440,20 L1440,40 L0,40 Z" fill={flip ? from : to} />
+    </svg>
+  </div>
+);
 
 const ProjectsPage = () => {
-  const inHouseProjects = [
-    {
-      title: "Edora",
-      category: "Educational Platform",
-      description: "An advanced educational platform that revolutionizes online learning through AI-powered personalization and interactive content delivery.",
-      tech: ["React", "TypeScript", "Node.js", "AI/ML", "Cloud"],
-      features: ["AI-Powered Learning Paths", "Real-time Collaboration", "Advanced Analytics", "Mobile-First Design"],
-      link: "https://edora.selybi.com",
-      favicon: "https://edora.selybi.com/edoraLogo.png"
-    },
+  const products = [
     {
       title: "LizaLab AI",
-      category: "AI Data Annotation",
-      description: "A powerful data annotation platform designed for training AI models. Streamline your machine learning workflows with precise labeling tools and quality assurance features.",
+      category: "AI Data Annotation Platform",
+      description: "Professional-grade annotation infrastructure for training AI models. Bounding boxes, text spans, video tracking, 3D point clouds — all with built-in quality assurance and team collaboration.",
       tech: ["React", "Python", "TensorFlow", "AWS", "PostgreSQL"],
-      features: ["Image & Text Annotation", "Quality Assurance Tools", "Team Collaboration", "Export to ML Formats"],
+      features: ["Multi-modal annotation", "Quality assurance tools", "Team collaboration", "Export to ML formats"],
       link: "https://lizalab.selybi.com/",
-      favicon: "https://lizalab.selybi.com/lizalabLogo.png"
+      favicon: "https://lizalab.selybi.com/lizalabLogo.png",
+      tag: "Annotation Platform",
+      accent: "#eab308",
+    },
+    {
+      title: "Edora",
+      category: "Educational AI Platform",
+      description: "AI-powered learning platform with personalised paths, real-time collaboration, and advanced analytics. Built for institutions that need scale without sacrificing the learner experience.",
+      tech: ["React", "TypeScript", "Node.js", "AI/ML", "Cloud"],
+      features: ["AI-powered learning paths", "Real-time collaboration", "Advanced analytics", "Mobile-first design"],
+      link: "https://edora.selybi.com",
+      favicon: "https://edora.selybi.com/edoraLogo.png",
+      tag: "AI Systems",
+      accent: "#3b82f6",
     },
   ];
 
-  const externalProjects = [
+  const services = [
     {
-      title: "E-Commerce Solutions",
-      description: "Custom online stores with seamless payment integration, inventory management, and analytics dashboards.",
-      icon: ShoppingCart,
-      tech: ["Next.js", "Stripe", "Cloud Native"]
+      icon: Tag,
+      title: "Data Annotation",
+      desc: "End-to-end annotation workflows via LizaLab — images, video, text, audio, 3D point clouds. Managed teams, quality gates, and ML-ready export.",
+      tags: ["BBOX", "Segmentation", "NLP", "3D LiDAR"],
+      accent: "#eab308",
     },
     {
-      title: "Mobile Applications",
-      description: "Native and cross-platform mobile apps for iOS and Android with intuitive user experiences.",
-      icon: Smartphone,
-      tech: ["React Native", "Flutter", "Swift"]
+      icon: Brain,
+      title: "AI & Machine Learning",
+      desc: "Custom AI systems, ML model development, LLM integrations, and intelligent agents built for production environments.",
+      tags: ["LLMs", "Computer Vision", "NLP", "MLOps"],
+      accent: "#8b5cf6",
     },
     {
-      title: "Enterprise Software",
-      description: "Scalable business solutions including CRM, ERP, and custom management systems.",
-      icon: Building2,
-      tech: ["React", "Node.js", "PostgreSQL"]
+      icon: Code2,
+      title: "Software Development",
+      desc: "Full-cycle custom software — CRM, ERP, automation platforms, business tools. From architecture through to delivery.",
+      tags: ["React", "Node.js", "Python", "TypeScript"],
+      accent: "#3b82f6",
     },
     {
-      title: "Database Solutions",
-      description: "Robust database design, migration, and optimization services for high-performance applications.",
-      icon: Database,
-      tech: ["PostgreSQL", "MongoDB", "Redis"]
-    },
-    {
-      title: "Web Applications",
-      description: "Modern, responsive web applications built with the latest technologies and best practices.",
       icon: Globe,
-      tech: ["React", "TypeScript", "Tailwind"]
+      title: "Web Applications",
+      desc: "Modern, responsive web apps and e-commerce solutions built with the latest frameworks, optimised for performance and SEO.",
+      tags: ["Next.js", "React", "Tailwind", "Stripe"],
+      accent: "#10b981",
     },
     {
-      title: "Business Automation",
-      description: "Custom automation tools to streamline workflows and improve operational efficiency.",
+      icon: Smartphone,
+      title: "Mobile Development",
+      desc: "Native and cross-platform iOS and Android apps with polished UX, offline support, and seamless backend integration.",
+      tags: ["React Native", "Flutter", "Swift", "Kotlin"],
+      accent: "#f43f5e",
+    },
+    {
+      icon: Database,
+      title: "Database & Backend",
+      desc: "Robust database design, migration, optimisation, and scalable API architecture for high-performance applications.",
+      tags: ["PostgreSQL", "MongoDB", "Redis", "REST/GraphQL"],
+      accent: "#f59e0b",
+    },
+    {
+      icon: Server,
+      title: "DevOps & Cloud",
+      desc: "Infrastructure setup, CI/CD pipelines, containerisation, and cloud deployment on AWS, GCP, and Azure.",
+      tags: ["AWS", "Docker", "Kubernetes", "CI/CD"],
+      accent: "#06b6d4",
+    },
+    {
       icon: Briefcase,
-      tech: ["Python", "APIs", "Cloud"]
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "CTO, TechFlow Solutions",
-      company: "TechFlow Solutions",
-      content: "Selybi transformed our entire digital infrastructure. Their expertise in custom software development and attention to detail exceeded our expectations.",
-      rating: 5,
-      avatar: "SC"
+      title: "Business Automation",
+      desc: "Custom automation tools, workflow orchestration, and integrations that eliminate manual processes and scale operations.",
+      tags: ["Python", "APIs", "Zapier-like", "Bots"],
+      accent: "#64748b",
     },
     {
-      name: "Michael Rodriguez",
-      role: "Founder & CEO",
-      company: "InnovateLab",
-      content: "Working with Selybi was a game-changer for our startup. They delivered a scalable web application that perfectly matched our vision.",
-      rating: 5,
-      avatar: "MR"
+      icon: Cpu,
+      title: "Embedded & IoT",
+      desc: "Firmware, edge AI, and IoT system integrations connecting hardware to intelligent cloud backends.",
+      tags: ["Edge AI", "MQTT", "Firmware", "Sensors"],
+      accent: "#84cc16",
     },
-    {
-      name: "Emily Thompson",
-      role: "Director of Innovation",
-      company: "FutureTech Corp",
-      content: "The mobile app Selybi developed for us has received outstanding user feedback. Their team's professionalism and commitment to quality was exceptional.",
-      rating: 5,
-      avatar: "ET"
-    },
-    {
-      name: "David Park",
-      role: "VP of Technology",
-      company: "DataDrive Analytics",
-      content: "Selybi's cloud solutions and backend architecture have significantly improved our system performance. Their ongoing support ensures we run flawlessly.",
-      rating: 5,
-      avatar: "DP"
-    },
-    {
-      name: "Lisa Wang",
-      role: "Product Manager",
-      company: "EduTech Innovations",
-      content: "The educational platform built by Selybi has transformed how our students learn. Engagement has increased by 300%. Truly exceptional work!",
-      rating: 5,
-      avatar: "LW"
-    },
-    {
-      name: "James Anderson",
-      role: "Chief Digital Officer",
-      company: "NextGen Solutions",
-      content: "Selybi's AI-powered analytics dashboard provides insights we never had before. Their ability to understand complex requirements is remarkable.",
-      rating: 5,
-      avatar: "JA"
-    }
   ];
 
   return (
     <>
-      {/* Projects Section */}
-      <section id="projects" className="py-12 lg:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-4">Our Work</div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Featured <span className="text-gray-600">Projects</span>
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Showcasing our flagship projects and innovative solutions that have transformed businesses and empowered users.
+      {/* ── HERO ── */}
+      <section className="pt-14 pb-12 bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-3">Our Work</p>
+            <h1 className="text-4xl sm:text-5xl font-semibold text-gray-900 leading-tight mb-4" style={H}>
+              Projects &amp; Products
+            </h1>
+            <p className="text-gray-500 text-base leading-relaxed">
+              Flagship platforms we've built in-house, and the full range of engineering disciplines we bring to every engagement.
             </p>
-          </div>
-
-          {/* In-House Projects Section */}
-          <div className="mb-20">
-            <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-8">
-              In-House <span className="text-gray-600">Products</span>
-            </h3>
-            
-            <div className="grid lg:grid-cols-2 gap-8">
-              {inHouseProjects.map((project) => (
-                <a 
-                  key={project.title}
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
-                >
-                  <div className="bg-white rounded-2xl border border-gray-200 p-8 hover:border-gray-900 hover:shadow-2xl transition-all duration-300">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden group-hover:bg-gray-900 transition-colors">
-                          <img 
-                            src={project.favicon} 
-                            alt={`${project.title} icon`}
-                            className="w-8 h-8 object-contain group-hover:brightness-0 group-hover:invert transition-all"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                            }}
-                          />
-                        </div>
-                        <div>
-                          <h4 className="text-xl font-bold text-gray-900 group-hover:text-black">{project.title}</h4>
-                          <p className="text-gray-500 text-sm">{project.category}</p>
-                        </div>
-                      </div>
-                      <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-gray-900 transition-colors" />
-                    </div>
-                    
-                    {/* Description */}
-                    <p className="text-gray-600 mb-6 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="mb-6">
-                      <div className="grid grid-cols-2 gap-2">
-                        {project.features.map((feature) => (
-                          <div key={feature} className="flex items-center text-sm text-gray-600">
-                            <div className="w-1 h-1 bg-gray-900 rounded-full mr-2"></div>
-                            {feature}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2 pt-6 border-t border-gray-100">
-                      {project.tech.map((tech) => (
-                        <span key={tech} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium group-hover:bg-gray-900 group-hover:text-white transition-colors">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* External Projects Section */}
-          <div>
-            <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-8">
-              Client <span className="text-gray-600">Projects</span>
-            </h3>
-            
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {externalProjects.map((project) => (
-                <div 
-                  key={project.title}
-                  className="group bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center mb-4 group-hover:bg-gray-900 group-hover:text-white transition-colors">
-                    <project.icon className="w-6 h-6 text-gray-700 group-hover:text-white transition-colors" />
-                  </div>
-                  <h4 className="text-lg font-bold text-gray-900 mb-2">{project.title}</h4>
-                  <p className="text-gray-600 text-sm mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span key={tech} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-lg">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="text-center mt-16">
-            <Button size="lg" className="bg-gray-900 hover:bg-gray-800" asChild>
-              <Link to="/contact">
-                Start Your Project <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 lg:py-28 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-4">Testimonials</div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              What Our <span className="text-gray-600">Clients Say</span>
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Don't just take our word for it. Hear from the companies and leaders who have experienced the Selybi difference.
-            </p>
+      <Wave from="#ffffff" to="#f8fafc" />
+
+      {/* ── IN-HOUSE PRODUCTS ── */}
+      <section className="py-14 lg:py-20 bg-[#f8fafc]">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="mb-10">
+            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-2">In-House Products</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900" style={H}>What We've Built</h2>
           </div>
 
-          {/* Testimonials Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial) => (
-              <div 
-                key={testimonial.name}
-                className="bg-white rounded-2xl border border-gray-200 p-8 relative hover:shadow-lg transition-all duration-300"
-              >
-                {/* Quote Icon */}
-                <div className="absolute top-6 right-6">
-                  <Quote className="w-8 h-8 text-gray-200" />
+          <div className="grid lg:grid-cols-2 gap-5">
+            {products.map((p) => (
+              <div key={p.title} className="group relative rounded-2xl bg-white border border-gray-100 p-7 hover:border-gray-200 hover:shadow-md transition-all duration-300 overflow-hidden">
+                {/* accent bloom */}
+                <div className="absolute top-0 right-0 w-48 h-48 rounded-full -translate-y-16 translate-x-16 opacity-[0.06] pointer-events-none" style={{ background: p.accent, filter: 'blur(40px)' }} />
+
+                {/* header */}
+                <div className="flex items-start justify-between mb-5">
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                      <img src={p.favicon} alt={p.title} className="w-7 h-7 object-contain"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    </div>
+                    <div>
+                      <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 text-gray-600 mb-1">{p.tag}</span>
+                      <h3 className="font-semibold text-gray-900 text-lg leading-tight" style={H}>{p.title}</h3>
+                      <p className="text-[11px] text-gray-400">{p.category}</p>
+                    </div>
+                  </div>
+                  <a href={p.link} target="_blank" rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:border-gray-400 transition-all flex-shrink-0">
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
                 </div>
 
-                {/* Rating */}
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                <p className="text-gray-500 text-sm leading-relaxed mb-5">{p.description}</p>
+
+                {/* features */}
+                <div className="grid grid-cols-2 gap-y-1.5 gap-x-3 mb-5">
+                  {p.features.map(f => (
+                    <div key={f} className="flex items-center gap-2 text-xs text-gray-600">
+                      <CheckCircle className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
+                      {f}
+                    </div>
                   ))}
                 </div>
 
-                {/* Content */}
-                <p className="text-gray-700 mb-6 leading-relaxed">
-                  "{testimonial.content}"
-                </p>
-
-                {/* Author */}
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold mr-4">
-                    {testimonial.avatar}
+                {/* footer */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex flex-wrap gap-1.5">
+                    {p.tech.map(t => (
+                      <span key={t} className="px-2 py-0.5 rounded-md bg-gray-100 text-gray-500 text-[10px] font-medium">{t}</span>
+                    ))}
                   </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                    <div className="text-sm text-gray-600">{testimonial.role}</div>
-                    <div className="text-sm text-gray-500">{testimonial.company}</div>
-                  </div>
+                  <a href={p.link} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-900 group-hover:gap-2.5 transition-all duration-200 flex-shrink-0 ml-4">
+                    Visit <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Stats Section */}
-          <div className="mt-20">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div>
-                  <div className="text-4xl font-bold text-gray-900 mb-2">98%</div>
-                  <div className="text-gray-600">Client Satisfaction</div>
+      <Wave from="#f8fafc" to="#ffffff" flip />
+
+      {/* ── WHAT WE DO ── */}
+      <section className="py-14 lg:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+            <div>
+              <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-2">Services</p>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900" style={H}>What We Do</h2>
+            </div>
+            <p className="text-gray-500 text-sm max-w-xs leading-relaxed">
+              Every discipline we bring to bear — from raw data to shipped product.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {services.map((s) => (
+              <div key={s.title} className="group relative rounded-2xl bg-gray-50 border border-gray-100 p-6 hover:border-gray-200 hover:bg-white hover:shadow-sm transition-all duration-300 overflow-hidden cursor-default">
+                {/* accent bloom */}
+                <div className="absolute top-0 right-0 w-28 h-28 rounded-full -translate-y-8 translate-x-8 opacity-[0.07] pointer-events-none" style={{ background: s.accent, filter: 'blur(20px)' }} />
+
+                <div className="w-9 h-9 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-200">
+                  <s.icon className="h-4 w-4 text-gray-600" />
                 </div>
-                <div>
-                  <div className="text-4xl font-bold text-gray-900 mb-2">100+</div>
-                  <div className="text-gray-600">Projects Completed</div>
+
+                <h3 className="font-semibold text-gray-900 text-sm mb-1.5" style={H}>{s.title}</h3>
+                <p className="text-gray-500 text-xs leading-relaxed mb-4">{s.desc}</p>
+
+                <div className="flex flex-wrap gap-1">
+                  {s.tags.map(tag => (
+                    <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-white border border-gray-200 text-gray-500">{tag}</span>
+                  ))}
                 </div>
-                <div>
-                  <div className="text-4xl font-bold text-gray-900 mb-2">100%</div>
-                  <div className="text-gray-600">On-Time Delivery</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-gray-900 mb-2">24/7</div>
-                  <div className="text-gray-600">Support Available</div>
-                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Wave from="#ffffff" to="#f1f5f9" />
+
+      {/* ── CTA ── */}
+      <section className="py-14 lg:py-20 bg-[#f1f5f9] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '22px 22px' }} />
+        <div className="relative max-w-4xl mx-auto px-6 lg:px-8">
+          <div className="rounded-3xl bg-white border border-gray-200 shadow-sm overflow-hidden">
+            <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #eab308 0%, #111827 50%, #3b82f6 100%)' }} />
+            <div className="px-8 py-12 sm:px-12 text-center">
+              <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-3" style={H}>
+                Ready to start a project?
+              </h2>
+              <p className="text-gray-500 text-base mb-8 max-w-md mx-auto leading-relaxed">
+                Whether it's an annotation pipeline, a custom AI system, or a full-stack product — let's scope it together.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/contact"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-gray-900 text-white text-sm font-semibold hover:opacity-90 transition-opacity shadow-sm">
+                  Get in Touch <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link to="/solutions"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full border border-gray-200 text-gray-700 text-sm font-medium hover:border-gray-400 transition-colors">
+                  View Solutions
+                </Link>
               </div>
             </div>
           </div>

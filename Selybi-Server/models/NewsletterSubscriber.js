@@ -26,7 +26,6 @@ const newsletterSubscriberSchema = new mongoose.Schema(
   }
 );
 
-newsletterSubscriberSchema.index({ email: 1 });
 
 const NewsletterSubscriber = mongoose.model('NewsletterSubscriber', newsletterSubscriberSchema);
 

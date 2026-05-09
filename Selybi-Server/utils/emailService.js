@@ -5,8 +5,9 @@ dotenv.config();
 
 const env = {
   emailUser: process.env.EMAIL_USER?.trim(),
-  companyName: process.env.COMPANY_NAME?.trim() || 'Selybi',
-  frontendUrl: process.env.FRONTEND_URL?.trim() || 'http://localhost:5173',
+  emailFrom: 'no-reply@selybi.com',
+  companyName: 'Selybi',
+  frontendUrl: 'https://selybi.com',
   googleClientId: process.env.GOOGLE_CLIENT_ID?.trim(),
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET?.trim(),
   refreshToken: process.env.REFRESH_TOKEN?.trim(),
@@ -54,7 +55,7 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
     const verificationUrl = `${env.frontendUrl}/verify-email?token=${verificationToken}`;
     
     const mailOptions = {
-      from: `"${env.companyName}" <${env.emailUser}>`,
+      from: `"${env.companyName}" <${env.emailFrom}>`,
       to: email,
       subject: 'Verify Your Email Address',
       html: `
@@ -188,7 +189,7 @@ export const sendVerificationEmail = async (email, name, verificationToken) => {
 export const sendWelcomeEmail = async (email, name) => {
   try {
     const mailOptions = {
-      from: `"${env.companyName}" <${env.emailUser}>`,
+      from: `"${env.companyName}" <${env.emailFrom}>`,
       to: email,
       subject: 'Welcome - Get Started!',
       html: `
@@ -290,11 +291,68 @@ export const sendWelcomeEmail = async (email, name) => {
   }
 };
 
+// Send password reset email
+export const sendPasswordResetEmail = async (email, name, resetToken) => {
+  try {
+    const resetUrl = `http://localhost:8080/reset-password?token=${resetToken}`;
+
+    const mailOptions = {
+      from: `"${env.companyName}" <${env.emailFrom}>`,
+      to: email,
+      subject: 'Password Reset Request',
+      html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Password Reset</title>
+          <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #1f2937; max-width: 600px; margin: 0 auto; padding: 20px; background: #f8fafc; }
+            .card { background: white; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; }
+            .brand { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 24px; }
+            .button { display: inline-block; background: #4f46e5; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-weight: 600; margin: 20px 0; }
+            .code { background: #f1f5f9; padding: 10px 14px; border-radius: 6px; font-family: monospace; font-size: 13px; word-break: break-all; margin: 12px 0; color: #334155; }
+            .muted { color: #64748b; font-size: 13px; }
+            .warning { background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #92400e; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <div class="brand">${env.companyName}</div>
+            <h2 style="margin-top:0;">Reset your password</h2>
+            <p>Hi ${name},</p>
+            <p>We received a request to reset the password for your account. Click the button below to set a new password.</p>
+            <div style="text-align:center;">
+              <a href="${resetUrl}" class="button">Reset Password</a>
+            </div>
+            <p class="muted">If the button doesn't work, copy and paste this link into your browser:</p>
+            <div class="code">${resetUrl}</div>
+            <div class="warning">⚠ This link will expire in <strong>10 minutes</strong>. If you did not request a password reset, you can safely ignore this email — your password will remain unchanged.</div>
+            <p style="margin-top:24px;" class="muted">Best regards,<br>The ${env.companyName} Team</p>
+          </div>
+        </body>
+        </html>
+      `,
+      text: `Hi ${name},\n\nReset your password by visiting:\n\n${resetUrl}\n\nThis link expires in 10 minutes.\n\nIf you did not request this, ignore this email.\n\nThe ${env.companyName} Team`,
+    };
+
+    const result = await sendEmail(mailOptions);
+    if (result.success) {
+      console.log(`Password reset email sent successfully via ${result.transport}:`, result.messageId);
+    }
+    return result;
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    return { success: false, error: error.message };
+  }
+};
+
 // Send newsletter subscription confirmation email
 export const sendNewsletterConfirmationEmail = async (email) => {
   try {
     const mailOptions = {
-      from: `"${env.companyName}" <${env.emailUser}>`,
+      from: `"${env.companyName}" <${env.emailFrom}>`,
       to: email,
       subject: `You're Subscribed to ${env.companyName} Newsletter`,
       html: `
